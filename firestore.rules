@@ -1,0 +1,97 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Function to check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Function to check if the user is an admin by Custom Claim
+    function isAdmin() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+    
+    // Fallback: Check if user document has role: 'admin'
+    // This allows bootstraping the first admin or falling back if custom claims aren't set
+    function isDocAdmin() {
+      return isAuthenticated() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Is the user either a claim admin or a document admin?
+    function isAnyAdmin() {
+      return isAdmin() || isDocAdmin();
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      // 1. Any admin can complete CRUD operations on users
+      // 2. A user can read their own document
+      // 3. A user can create their own document (e.g., upon registration)
+      allow read: if isAnyAdmin() || request.auth.uid == userId;
+      // Allow creation only for own uid, and ensure role is student by default (unless admin is creating)
+      allow create: if isAnyAdmin() || (request.auth.uid == userId && request.resource.data.role == 'student');
+      // Allow updates to own document (lastActiveAt, etc), but prevent elevating role
+      allow update: if isAnyAdmin() || (
+        request.auth.uid == userId && 
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'status']))
+      );
+      allow delete: if isAnyAdmin();
+
+      // Devices Subcollection
+      match /devices/{deviceId} {
+        // Admins can full CRUD.
+        // User can read and update their own devices (e.g. updating lastSeenAt)
+        // User can create their own device records.
+        allow read: if isAnyAdmin() || request.auth.uid == userId;
+        allow create: if isAnyAdmin() || request.auth.uid == userId;
+        allow update: if isAnyAdmin() || (
+          request.auth.uid == userId &&
+          (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['status', 'canDownloadAudio']))
+        );
+        allow delete: if isAnyAdmin();
+      }
+    }
+
+    // Subjects Collection
+    match /subjects/{subjectId} {
+      // Any authenticated user (admin or student) can read subjects
+      allow read: if isAuthenticated();
+      // Only admins can write
+      allow write: if isAnyAdmin();
+
+      // Lectures Subcollection
+      match /lectures/{lectureId} {
+        // Any authenticated user can read lectures
+        allow read: if isAuthenticated();
+        // Only admins can write
+        allow write: if isAnyAdmin();
+      }
+    }
+
+    // Alerts Collection
+    match /alerts/{alertId} {
+      // Admins read all alerts
+      // Students don't need to read alerts
+      allow read: if isAnyAdmin();
+      // Students can create alerts (e.g., for device limit, concurrent use)
+      allow create: if isAuthenticated();
+      // Admins can update/delete alerts (mark as read)
+      allow update, delete: if isAnyAdmin();
+    }
+
+    // Settings Collection
+    match /settings/{docId} {
+      // Anyone authenticated can read global settings (like maxDevicesPerUser)
+      allow read: if isAuthenticated();
+      // Only admins can change settings
+      allow write: if isAnyAdmin();
+    }
+
+    // Required for collectionGroup('devices') queries
+    match /{path=**}/devices/{deviceId} {
+      allow read: if isAnyAdmin();
+    }
+  }
+}

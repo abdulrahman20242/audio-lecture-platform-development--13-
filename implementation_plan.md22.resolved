@@ -1,0 +1,40 @@
+# خطة التحسينات (Performance, Security & Design)
+
+## ملخص المشكلة
+يحتوي النظام الحالي على ثغرات أمنية تتعلق بصلاحيات قاعدة البيانات (Firestore)، ومشاكل في الأداء بسبب جلب كل البيانات لعدّها فقط (مثل لوحة التحكم)، بالإضافة إلى بعض التحسينات المطلوبة في واجهة المستخدم (مثل استبدال الـ alerts العادية بإشعارات Toast أنيقة).
+
+## User Review Required
+> [!IMPORTANT]
+> - هل ترغب بإضافة مكتبة `react-hot-toast` أو `sonner` لتحسين شكل الإشعارات بدلاً من `console.error` و `alert`؟
+> - سأقوم بإنشاء ملف `firestore.rules` وقواعد لحماية البيانات، ستحتاج إلى رفعها لمنصة Firebase.
+
+## Proposed Changes
+
+### قواعد البيانات والأمان (Security)
+- إنشاء ملف `firestore.rules` لضبط صلاحيات الوصول:
+  - الإدمن فقط يحق له قراءة وتعديل جميع المستخدمين والمواد (admin).
+  - الطالب يقدر فقط يقرأ حسابه والمواد المتاحة له.
+  - منع الطلاب من ترقية أنفسهم إلى `role: 'admin'`.
+
+### تحسين الأداء (Performance)
+#### [MODIFY] [src/pages/AdminPanel.tsx](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/pages/AdminPanel.tsx)
+- استبدال دوال `getDocs` التي تجلب آلاف المستندات في `fetchStats` بدالة `getCountFromServer()`.
+  - سيقلل هذا من التكلفة المادية في Firebase (Firestore Reads) بشكل كبير وسيسرع تحميل لوحة التحكم.
+- استبدال الـ native `confirm()` في الحذف (مثل حذف الطالب أو المادة) بنافذة Modal أنيقة أو Toast.
+- إضافة Pagination لاحقاً إذا كان عدد الطلاب أو الأجهزة كبيراً.
+
+### تحسين التصميم وتجربة المستخدم (Design/UX)
+#### [MODIFY] [src/App.tsx](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/App.tsx) (or new context)
+- إضافة نظام Toasts للإشعارات (بدلاً من console.error في حال فشل تسجيل الدخول أو عند الموافقة على جهاز). المظهر سيكون Premium أكثر (مثال: ظهور إشعار منبثق أنيق لنجاح العملية).
+- توحيد الـ Spinners واستخدام Skeleton Loaders في أماكن أكثر لجعل المنصة تبدو أكثر استجابة.
+
+## Verification Plan
+
+### Automated Tests
+- لا توجد اختبارات تلقائية مدمجة حالياً، سيتم الاعتماد على الـ TypeScript لضمان عدم وجود أخطاء في الكود (Type Checking).
+- تشغيل `npm run build` للتحقق من سلامة البناء.
+
+### Manual Verification
+- تسجيل الدخول كإدمن، وفتح لوحة التحكم والتأكد من ظهور الإحصائيات (Stats) بشكل فوري وصحيح من خلال `getCountFromServer`.
+- إضافة/حذف مادة والتأكد من ظهور Toast بدلاً من Alert المدمج بالمتصفح.
+- محاولة إنشاء مستخدم جديد والتأكد من عدم قدرته على اختراق القواعد (Security Rules).

@@ -1,0 +1,22 @@
+# Fix Admin Login Issue
+
+## Problem
+The admin user is experiencing an issue where they are immediately logged out upon logging in, returning them to the login page.
+This happens because the system identifies admins **exclusively** by checking Firebase Auth Custom Claims (`tokenResult.claims.admin === true`). 
+If the admin account was created via the Firebase Console without a Cloud Function to grant Custom Claims, the platform treats them as a normal student. As a result, the login flow hits the student validation logic (`emailVerified === true`), and if the email is unverified or the user document is missing, it immediately signs the user out, causing the erratic redirect behavior.
+
+## Proposed Changes
+
+### [src/contexts/AuthContext.tsx](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx)
+- **Modify [isAdminUser](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#47-56) function**: 
+  1. Continue checking Custom Claims as the highest priority.
+  2. Fallback to checking the user's Firestore document. If `userDoc.data().role === 'admin'`, return `true`.
+  3. Bootstrap Admin Logic: If there are NO admins present in the `users` collection, automatically promote the first authenticating user to admin. This allows the system owner to safely initialize the administrator account if they haven't explicitly set roles in Firestore yet.
+- **Refactor [signIn](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#252-284) function**:
+  Use the newly updated [isAdminUser](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#47-56) function instead of directly checking `tokenResult.claims.admin`. This guarantees that both [signIn](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#252-284) and [fetchUserData](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#87-201) (which already uses [isAdminUser](file:///c:/Users/MF/Downloads/audio-lecture-platform-development%20%2813%29/src/contexts/AuthContext.tsx#47-56)) are perfectly in sync when identifying admins.
+
+## Verification Plan
+
+### Manual Verification
+1. I will execute `npm run build` or `npm run dev` in the terminal to verify the TypeScript code compiles successfully.
+2. I will notify the user with the plan and wait for their approval. Once approved, I will implement the changes and ask the user to test logging in with their admin account.
