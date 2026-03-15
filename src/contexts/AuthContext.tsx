@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef, useMemo } from 'react';
 import { 
   User, 
   onAuthStateChanged, 
@@ -192,8 +192,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
 
         // Check device limit
-        const devicesSnap = await getDocs(collection(db, 'users', firebaseUser.uid, 'devices'));
-        const settingsDoc = await getDoc(doc(db, 'settings', 'global'));
+        const [devicesSnap, settingsDoc] = await Promise.all([
+          getDocs(collection(db, 'users', firebaseUser.uid, 'devices')),
+          getDoc(doc(db, 'settings', 'global'))
+        ]);
         const maxDevices = settingsDoc.exists() ? settingsDoc.data().maxDevicesPerUser : 3;
 
         if (devicesSnap.size > maxDevices) {
@@ -372,7 +374,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const value: AuthContextType = {
+  const value = useMemo<AuthContextType>(() => ({
     user,
     userData,
     deviceData,
@@ -383,7 +385,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     resetPassword,
     resendVerificationEmail,
     refreshUserData
-  };
+  }), [user, userData, deviceData, loading]);
 
   return (
     <AuthContext.Provider value={value}>

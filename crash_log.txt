@@ -1,0 +1,6 @@
+≡ƒÜÇ Starting test execution...
+Γ¥î Test execution failed: Error: Code generation and execution is already running. Please wait for it to complete or remove the lock file:  c:\Users\MF\Downloads\audio-lecture-platform-development (13)\testsprite_tests\tmp\execution.lock
+    at file:///C:/Users/MF/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:136305:23
+    at Command.<anonymous> (file:///C:/Users/MF/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:143262:15)
+    at async Command.parseAsync (file:///C:/Users/MF/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:141531:6)
+    at async main (file:///C:/Users/MF/AppData/Local/npm-cache/_npx/8ddf6bea01b2519d/node_modules/@testsprite/testsprite-mcp/dist/index.js:143487:9)

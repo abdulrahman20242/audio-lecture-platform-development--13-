@@ -5,11 +5,22 @@ import { useAuth } from '../contexts/AuthContext';
 import { SubjectData, LectureData } from '../types';
 import { getDriveEmbedUrl, getDrivePdfPreviewUrl, extractDriveFileId, triggerDriveDownload } from '../utils/driveLinks';
 import { getOrCreateDeviceId } from '../utils/device';
-import {
-  BookOpen, LogOut, ChevronLeft, Play, FileText, Download,
-  Headphones, ArrowRight, GraduationCap, User,
-  Volume2, Lock, Eye, Shield, EyeOff, Loader2
-} from 'lucide-react';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import ChevronLeft from 'lucide-react/dist/esm/icons/chevron-left';
+import Play from 'lucide-react/dist/esm/icons/play';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Download from 'lucide-react/dist/esm/icons/download';
+import Headphones from 'lucide-react/dist/esm/icons/headphones';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import GraduationCap from 'lucide-react/dist/esm/icons/graduation-cap';
+import User from 'lucide-react/dist/esm/icons/user';
+import Volume2 from 'lucide-react/dist/esm/icons/volume-2';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2';
 
 // ===== STUDENT HEADER =====
 const StudentHeader = memo(function StudentHeader({ title, onBack }: { title: string; onBack?: () => void }) {
@@ -94,6 +105,16 @@ function SkeletonCard() {
   );
 }
 
+// ===== SUBJECT COLORS (hoisted to avoid per-render allocation) =====
+const SUBJECT_COLORS = [
+  'from-indigo-500 to-blue-600',
+  'from-emerald-500 to-teal-600',
+  'from-violet-500 to-purple-600',
+  'from-amber-500 to-orange-600',
+  'from-rose-500 to-pink-600',
+  'from-cyan-500 to-sky-600',
+];
+
 // ===== SUBJECTS PAGE =====
 export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: SubjectData) => void }) {
   const [subjects, setSubjects] = useState<SubjectData[]>([]);
@@ -121,14 +142,6 @@ export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: S
     fetchSubjects();
   }, [user]);
 
-  const colors = [
-    'from-indigo-500 to-blue-600',
-    'from-emerald-500 to-teal-600',
-    'from-violet-500 to-purple-600',
-    'from-amber-500 to-orange-600',
-    'from-rose-500 to-pink-600',
-    'from-cyan-500 to-sky-600',
-  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white page-transition">
@@ -171,7 +184,7 @@ export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: S
                 className={`animate-fade-in stagger-${Math.min(i + 1, 6)} bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg border border-slate-100 hover:border-indigo-200 transition-all duration-300 text-right group card-hover`}
               >
                 <div className="flex items-center gap-4">
-                  <div className={`w-13 h-13 bg-gradient-to-br ${colors[i % colors.length]} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300 p-3`}>
+                  <div className={`w-13 h-13 bg-gradient-to-br ${SUBJECT_COLORS[i % SUBJECT_COLORS.length]} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300 p-3`}>
                     <BookOpen className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">

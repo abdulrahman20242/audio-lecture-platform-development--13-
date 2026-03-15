@@ -1,13 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 
 const DEVICE_ID_KEY = 'deviceId';
+let cachedDeviceId: string | null = null;
 
 export function getOrCreateDeviceId(): string {
+  if (cachedDeviceId) return cachedDeviceId;
   let deviceId = localStorage.getItem(DEVICE_ID_KEY);
   if (!deviceId) {
     deviceId = uuidv4();
     localStorage.setItem(DEVICE_ID_KEY, deviceId);
   }
+  cachedDeviceId = deviceId;
   return deviceId;
 }
 

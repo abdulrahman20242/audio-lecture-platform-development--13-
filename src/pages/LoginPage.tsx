@@ -2,7 +2,16 @@ import { useState, useCallback } from 'react';
 import { signInWithEmailAndPassword, sendEmailVerification, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
-import { LogIn, Mail, Lock, BookOpen, Eye, EyeOff, AlertCircle, Sparkles, Send, CheckCircle } from 'lucide-react';
+import LogIn from 'lucide-react/dist/esm/icons/log-in';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
+import Send from 'lucide-react/dist/esm/icons/send';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
 
 // Redirect URL — always use origin without path
 const REDIRECT_URL = window.location.origin;

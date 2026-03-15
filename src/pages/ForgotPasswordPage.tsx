@@ -1,6 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Mail, ArrowRight, BookOpen, AlertCircle, CheckCircle, KeyRound } from 'lucide-react';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import KeyRound from 'lucide-react/dist/esm/icons/key-round';
 
 export default function ForgotPasswordPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const { resetPassword } = useAuth();

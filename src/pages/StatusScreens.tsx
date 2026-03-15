@@ -1,6 +1,11 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Clock, XCircle, Ban, Smartphone, LogOut, RefreshCw } from 'lucide-react';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import XCircle from 'lucide-react/dist/esm/icons/x-circle';
+import Ban from 'lucide-react/dist/esm/icons/ban';
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
 
 function StatusLayout({ children, gradient }: { children: React.ReactNode; gradient: string }) {
   return (

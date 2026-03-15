@@ -13,7 +13,9 @@ import {
 import { SubjectsPage, LecturesPage, LecturePage } from './pages/StudentPages';
 import AdminPanel from './pages/AdminPanel';
 import { SubjectData, LectureData } from './types';
-import { BookOpen, LogOut, Loader2 } from 'lucide-react';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import Loader2 from 'lucide-react/dist/esm/icons/loader-2';
 import { Toaster } from 'sonner';
 
 function LoadingScreen() {

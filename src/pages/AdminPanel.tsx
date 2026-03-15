@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, memo } from 'react';
+import React, { useState, useEffect, useCallback, memo, useMemo } from 'react';
 import {
   collection, getDocs, query, orderBy, doc, updateDoc, deleteDoc,
   addDoc, serverTimestamp, getDoc, where, setDoc, collectionGroup, getCountFromServer
@@ -7,15 +7,43 @@ import { toast } from 'sonner';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { UserData, DeviceData, SubjectData, LectureData, AlertData, SettingsData } from '../types';
-import {
-  LayoutDashboard, Users, Smartphone, BookOpen, Bell, Settings,
-  LogOut, Check, X, Ban, RotateCcw, Trash2, Plus, Edit3, Save,
-  ChevronRight, ChevronDown, ChevronUp, Search,
-  Headphones, FileText, Download, RefreshCw,
-  Menu, XCircle, Shield, Monitor, Clock, AlertTriangle,
-  UserCheck, UserX, Phone, Mail, Calendar, ToggleLeft, ToggleRight,
-  TrendingUp
-} from 'lucide-react';
+import LayoutDashboard from 'lucide-react/dist/esm/icons/layout-dashboard';
+import Users from 'lucide-react/dist/esm/icons/users';
+import Smartphone from 'lucide-react/dist/esm/icons/smartphone';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import Bell from 'lucide-react/dist/esm/icons/bell';
+import Settings from 'lucide-react/dist/esm/icons/settings';
+import LogOut from 'lucide-react/dist/esm/icons/log-out';
+import Check from 'lucide-react/dist/esm/icons/check';
+import X from 'lucide-react/dist/esm/icons/x';
+import Ban from 'lucide-react/dist/esm/icons/ban';
+import RotateCcw from 'lucide-react/dist/esm/icons/rotate-ccw';
+import Trash2 from 'lucide-react/dist/esm/icons/trash-2';
+import Plus from 'lucide-react/dist/esm/icons/plus';
+import Edit3 from 'lucide-react/dist/esm/icons/edit-3';
+import Save from 'lucide-react/dist/esm/icons/save';
+import ChevronRight from 'lucide-react/dist/esm/icons/chevron-right';
+import ChevronDown from 'lucide-react/dist/esm/icons/chevron-down';
+import ChevronUp from 'lucide-react/dist/esm/icons/chevron-up';
+import Search from 'lucide-react/dist/esm/icons/search';
+import Headphones from 'lucide-react/dist/esm/icons/headphones';
+import FileText from 'lucide-react/dist/esm/icons/file-text';
+import Download from 'lucide-react/dist/esm/icons/download';
+import RefreshCw from 'lucide-react/dist/esm/icons/refresh-cw';
+import Menu from 'lucide-react/dist/esm/icons/menu';
+import XCircle from 'lucide-react/dist/esm/icons/x-circle';
+import Shield from 'lucide-react/dist/esm/icons/shield';
+import Monitor from 'lucide-react/dist/esm/icons/monitor';
+import Clock from 'lucide-react/dist/esm/icons/clock';
+import AlertTriangle from 'lucide-react/dist/esm/icons/alert-triangle';
+import UserCheck from 'lucide-react/dist/esm/icons/user-check';
+import UserX from 'lucide-react/dist/esm/icons/user-x';
+import Phone from 'lucide-react/dist/esm/icons/phone';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Calendar from 'lucide-react/dist/esm/icons/calendar';
+import ToggleLeft from 'lucide-react/dist/esm/icons/toggle-left';
+import ToggleRight from 'lucide-react/dist/esm/icons/toggle-right';
+import TrendingUp from 'lucide-react/dist/esm/icons/trending-up';
 
 // Note: All imports above are used across the admin panel sections
 
@@ -154,11 +182,15 @@ export default function AdminPanel() {
         label: 'حذف', onClick: async () => {
           setActionLoading(uid + 'delete');
           try {
-            const devicesSnap = await getDocs(collection(db, 'users', uid, 'devices'));
-            await Promise.all(devicesSnap.docs.map(d => deleteDoc(d.ref)));
-            await deleteDoc(doc(db, 'users', uid));
-            const alertsSnap = await getDocs(query(collection(db, 'alerts'), where('userId', '==', uid)));
-            await Promise.all(alertsSnap.docs.map(d => deleteDoc(d.ref)));
+            const [devicesSnap, alertsSnap] = await Promise.all([
+              getDocs(collection(db, 'users', uid, 'devices')),
+              getDocs(query(collection(db, 'alerts'), where('userId', '==', uid)))
+            ]);
+            await Promise.all([
+              ...devicesSnap.docs.map(d => deleteDoc(d.ref)),
+              ...alertsSnap.docs.map(d => deleteDoc(d.ref)),
+              deleteDoc(doc(db, 'users', uid))
+            ]);
             setStudents(prev => prev.filter(s => s.uid !== uid));
             fetchStats();
             toast.success('تم حذف الطالب والأجهزة المرتبطة بنجاح');
@@ -402,6 +434,14 @@ function DashboardSection({ stats, onNavigate }: { stats: any; onNavigate: (s: A
 }
 
 // ===== STUDENTS =====
+// Hoisted outside component to avoid per-render allocation
+const statusCfg: Record<string, { label: string; color: string; bg: string; icon: any }> = {
+  pending: { label: 'انتظار', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200', icon: Clock },
+  approved: { label: 'مقبول', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', icon: UserCheck },
+  rejected: { label: 'مرفوض', color: 'text-red-700', bg: 'bg-red-50 border-red-200', icon: UserX },
+  suspended: { label: 'معلّق', color: 'text-orange-700', bg: 'bg-orange-50 border-orange-200', icon: Ban }
+};
+
 function StudentsSection({ students, loading, actionLoading, onAction, onDelete, onDeviceAction, onDeleteDevice, onToggleDownload, onRefresh }: {
   students: UserData[]; loading: boolean; actionLoading: string | null;
   onAction: (uid: string, status: string) => void; onDelete: (uid: string) => void;
@@ -414,18 +454,19 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
   const [deviceMap, setDeviceMap] = useState<Record<string, DeviceData[]>>({});
   const [loadingDev, setLoadingDev] = useState<string | null>(null);
 
-  const filtered = students.filter(s => {
+  const filtered = useMemo(() => students.filter(s => {
     if (filter !== 'all' && s.status !== filter) return false;
     if (search) { const q = search.toLowerCase(); return s.name.toLowerCase().includes(q) || s.email.toLowerCase().includes(q) || s.phone.includes(q); }
     return true;
-  });
+  }), [students, filter, search]);
 
-  const statusCfg: Record<string, { label: string; color: string; bg: string; icon: any }> = {
-    pending: { label: 'انتظار', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200', icon: Clock },
-    approved: { label: 'مقبول', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', icon: UserCheck },
-    rejected: { label: 'مرفوض', color: 'text-red-700', bg: 'bg-red-50 border-red-200', icon: UserX },
-    suspended: { label: 'معلّق', color: 'text-orange-700', bg: 'bg-orange-50 border-orange-200', icon: Ban }
-  };
+  const counts = useMemo(() => {
+    const c = { all: students.length, pending: 0, approved: 0, rejected: 0, suspended: 0 };
+    for (const s of students) {
+      if (s.status in c) c[s.status as keyof typeof c]++;
+    }
+    return c;
+  }, [students]);
 
   async function toggleExpand(s: UserData) {
     if (expanded === s.uid) { setExpanded(null); return; }
@@ -444,8 +485,6 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
     catch (err) { console.error(err); }
     setLoadingDev(null);
   }
-
-  const counts = { all: students.length, pending: students.filter(s => s.status === 'pending').length, approved: students.filter(s => s.status === 'approved').length, rejected: students.filter(s => s.status === 'rejected').length, suspended: students.filter(s => s.status === 'suspended').length };
 
   return (
     <div className="page-transition">

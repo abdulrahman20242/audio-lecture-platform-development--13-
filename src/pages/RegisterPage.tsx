@@ -1,6 +1,18 @@
 import { useState, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { UserPlus, Mail, Lock, User, Phone, BookOpen, Eye, EyeOff, AlertCircle, CheckCircle, ArrowRight, Send, Sparkles } from 'lucide-react';
+import UserPlus from 'lucide-react/dist/esm/icons/user-plus';
+import Mail from 'lucide-react/dist/esm/icons/mail';
+import Lock from 'lucide-react/dist/esm/icons/lock';
+import User from 'lucide-react/dist/esm/icons/user';
+import Phone from 'lucide-react/dist/esm/icons/phone';
+import BookOpen from 'lucide-react/dist/esm/icons/book-open';
+import Eye from 'lucide-react/dist/esm/icons/eye';
+import EyeOff from 'lucide-react/dist/esm/icons/eye-off';
+import AlertCircle from 'lucide-react/dist/esm/icons/alert-circle';
+import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
+import ArrowRight from 'lucide-react/dist/esm/icons/arrow-right';
+import Send from 'lucide-react/dist/esm/icons/send';
+import Sparkles from 'lucide-react/dist/esm/icons/sparkles';
 
 export default function RegisterPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const { signUp } = useAuth();

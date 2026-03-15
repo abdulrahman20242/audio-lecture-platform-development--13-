@@ -1,3 +1,9 @@
+// Hoisted RegExps — avoid recompilation on each function call
+const RE_FILE_D = /\/file\/d\/([a-zA-Z0-9_-]+)/;
+const RE_ID_PARAM = /[?&]id=([a-zA-Z0-9_-]+)/;
+const RE_UC_ID = /uc\?.*id=([a-zA-Z0-9_-]+)/;
+const RE_DIRECT_ID = /^[a-zA-Z0-9_-]{20,}$/;
+
 /**
  * Extracts the file ID from various Google Drive URL formats
  */
@@ -5,19 +11,19 @@ export function extractDriveFileId(url: string): string | null {
   if (!url) return null;
   
   // Format: https://drive.google.com/file/d/FILE_ID/view
-  let match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  let match = url.match(RE_FILE_D);
   if (match) return match[1];
   
   // Format: https://drive.google.com/open?id=FILE_ID
-  match = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  match = url.match(RE_ID_PARAM);
   if (match) return match[1];
   
   // Format: https://drive.google.com/uc?id=FILE_ID
-  match = url.match(/uc\?.*id=([a-zA-Z0-9_-]+)/);
+  match = url.match(RE_UC_ID);
   if (match) return match[1];
 
   // Format: direct file ID
-  if (/^[a-zA-Z0-9_-]{20,}$/.test(url)) return url;
+  if (RE_DIRECT_ID.test(url)) return url;
   
   return null;
 }
