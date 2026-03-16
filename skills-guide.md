@@ -199,4 +199,18 @@ npx skills add anthropics/skills
 
 ---
 
+### 04 — استخدم أقوى 1,259+ Skill على Antigravity بأمر واحد
+
+**النوع:** Awesome Skills
+
+مجموعة ضخمة تضم أكثر من 1,259 مهارة جاهزة لكل شيء — من البرمجة والتصميم إلى DevOps والكتابة. تُضاف دفعة واحدة بأمر واحد.
+
+```bash
+npx antigravity-awesome-skills
+```
+
+▶️ [شاهد الفيديو](https://youtu.be/EYWbm_RsRGo) &nbsp;|&nbsp; 🔗 [صفحة المهارة على GitHub](https://github.com/sickn33/antigravity-awesome-skills)
+
+---
+
 *المصدر: [antigravity.google/docs/skills](https://antigravity.google/docs/skills)*
