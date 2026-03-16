@@ -151,6 +151,8 @@ Agent ← ✓ يقرأ SKILL.md ويطبق التعليمات مباشرةً
 
 ## إضافات جاهزة
 
+▶️ [شاهد الفيديو كاملاً](https://youtu.be/dgvttpjA5x8?list=PLONxM3YaRn0w_x2Q2CHkivt14s_EdU-SG)
+
 ### 01 — Chrome DevTools MCP Server
 
 **النوع:** MCP Server
