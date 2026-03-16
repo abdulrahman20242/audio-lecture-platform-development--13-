@@ -280,6 +280,11 @@ code.ic { font-family: var(--mono); font-size: 12px; background: rgba(0,229,255,
 .ext-card.e3 { border-top: 2px solid var(--accent3); }
 .ext-card.e3::before { background: radial-gradient(600px at 0% 0%, rgba(255,107,53,0.07), transparent 60%); }
 .ext-card.e3:hover { border-color: rgba(255,107,53,0.35); }
+.ext-card.e4 { border-top: 2px solid #3fb950; }
+.ext-card.e4::before { background: radial-gradient(600px at 0% 0%, rgba(63,185,80,0.07), transparent 60%); }
+.ext-card.e4:hover { border-color: rgba(63,185,80,0.35); }
+.e4 .ext-num { color: #3fb950; text-shadow: 0 0 20px rgba(63,185,80,0.4); }
+.e4 .ext-link { color: #3fb950; border-color: rgba(63,185,80,0.22); }
 .ext-card:hover::before { opacity: 1; }
 .ext-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 18px; }
 .ext-num { font-family: var(--mono); font-size: 2.8rem; font-weight: 600; line-height: 1; flex-shrink: 0; }
@@ -690,6 +695,34 @@ footer a:hover { text-decoration: underline; }
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           عرض الـ SKILL.md على GitHub
         </a>
+      </div>
+
+      <div class="ext-card e4">
+        <div class="ext-header">
+          <div class="ext-num">04</div>
+          <div class="ext-title-area">
+            <div class="ext-label">Awesome Skills</div>
+            <div class="ext-title">استخدم أقوى 1,259+ Skill على Antigravity بأمر واحد</div>
+          </div>
+        </div>
+        <p class="ext-desc">مجموعة ضخمة تضم أكثر من 1,259 مهارة جاهزة لكل شيء — من البرمجة والتصميم إلى DevOps والكتابة. تُضاف دفعة واحدة بأمر واحد.</p>
+        <div class="cmd-block">
+          <div class="cmd-lbl">إضافة جميع المهارات دفعة واحدة</div>
+          <div class="cmd-row">
+            <code>npx antigravity-awesome-skills</code>
+            <button class="copy-btn" onclick="cp(this,'npx antigravity-awesome-skills')">نسخ</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a class="ext-link" href="https://youtu.be/EYWbm_RsRGo" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            شاهد الفيديو
+          </a>
+          <a class="ext-link" href="https://github.com/sickn33/antigravity-awesome-skills" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            صفحة المهارة على GitHub
+          </a>
+        </div>
       </div>
 
     </div>
