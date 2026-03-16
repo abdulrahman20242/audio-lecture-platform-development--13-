@@ -20,16 +20,18 @@ import { Toaster } from 'sonner';
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center grain-overlay"
+      style={{ background: 'radial-gradient(ellipse at 40% 30%, #1b2641 0%, #0a0f1c 50%, #050810 100%)' }}>
       <div className="text-center animate-fade-in">
         <div className="relative">
-          <div className="w-20 h-20 bg-indigo-600/20 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-float">
-            <BookOpen className="w-10 h-10 text-indigo-400" />
+          <div className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-6 animate-float"
+            style={{ background: 'linear-gradient(135deg, rgba(212, 168, 83, 0.15), rgba(63, 85, 128, 0.15))', border: '1px solid rgba(63, 85, 128, 0.25)' }}>
+            <BookOpen className="w-10 h-10 text-gold-400" />
           </div>
           <div className="absolute inset-0 w-20 h-20 mx-auto rounded-3xl animate-pulse-glow" />
         </div>
-        <Loader2 className="w-6 h-6 text-indigo-400 animate-spin mx-auto mb-3" />
-        <p className="text-indigo-300 text-sm font-medium">جاري التحميل...</p>
+        <Loader2 className="w-6 h-6 text-gold-400 animate-spin mx-auto mb-3" />
+        <p className="text-gold-400/70 text-sm font-medium">جاري التحميل...</p>
       </div>
     </div>
   );
@@ -38,16 +40,17 @@ function LoadingScreen() {
 function NoUserDataScreen() {
   const { signOut } = useAuth();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-red-50 flex items-center justify-center p-4" dir="rtl">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 text-center animate-fade-in-scale">
-        <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+    <div className="min-h-screen flex items-center justify-center p-4 grain-overlay" dir="rtl"
+      style={{ background: 'radial-gradient(ellipse at 40% 30%, #1a0808 0%, #0a0f1c 50%, #050810 100%)' }}>
+      <div className="w-full max-w-md glass-card rounded-3xl shadow-xl p-8 text-center animate-fade-in-scale">
+        <div className="w-16 h-16 bg-red-500/15 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-red-500/20">
           <span className="text-3xl">⚠️</span>
         </div>
-        <h2 className="text-xl font-extrabold text-slate-800 mb-2">حساب غير موجود</h2>
-        <p className="text-slate-500 text-sm mb-6 leading-relaxed">لم يتم العثور على بيانات حسابك في النظام. يرجى التواصل مع المدرس.</p>
+        <h2 className="text-xl font-extrabold text-white mb-2 font-display">حساب غير موجود</h2>
+        <p className="text-slate-400 text-sm mb-6 leading-relaxed">لم يتم العثور على بيانات حسابك في النظام. يرجى التواصل مع المدرس.</p>
         <button
           onClick={() => signOut()}
-          className="inline-flex items-center gap-2 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-2xl transition-all"
+          className="inline-flex items-center gap-2 btn-gold text-navy-950 font-bold py-3 px-8 rounded-2xl transition-all"
         >
           <LogOut className="w-4 h-4" />
           تسجيل الخروج

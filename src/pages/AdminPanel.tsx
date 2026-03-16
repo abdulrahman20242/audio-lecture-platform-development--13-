@@ -281,23 +281,23 @@ export default function AdminPanel() {
   }, [section, fetchStats, fetchStudents, fetchPendingDevices, fetchSubjects, fetchAlerts]);
 
   return (
-    <div className="min-h-screen bg-slate-50/80 flex" dir="rtl">
-      {mobileMenuOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />}
+    <div className="min-h-screen flex" dir="rtl" style={{ background: 'linear-gradient(180deg, #0a0f1c 0%, #0e1425 50%, #0a0f1c 100%)' }}>
+      {mobileMenuOpen && <div className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />}
 
       {/* Sidebar */}
-      <aside className={`fixed lg:static inset-y-0 right-0 z-50 w-[260px] bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 transform transition-transform duration-300 ease-out lg:transform-none ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'} flex flex-col`}>
-        <div className="p-4 border-b border-white/10">
+      <aside className={`fixed lg:static inset-y-0 right-0 z-50 w-[260px] transform transition-transform duration-300 ease-out lg:transform-none ${mobileMenuOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'} flex flex-col`} style={{ background: 'linear-gradient(180deg, #050810 0%, #0a0f1c 50%, #050810 100%)', borderLeft: '1px solid rgba(63, 85, 128, 0.12)' }}>
+        <div className="p-4 border-b border-navy-500/12">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <Shield className="w-4.5 h-4.5 text-white" />
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg" style={{ background: 'linear-gradient(135deg, #d4a853, #a37a2e)', boxShadow: '0 0 20px rgba(212, 168, 83, 0.15)' }}>
+                <Shield className="w-4.5 h-4.5 text-navy-950" />
               </div>
               <div>
-                <h1 className="text-sm font-extrabold text-white">لوحة التحكم</h1>
-                <p className="text-[10px] text-slate-400 font-medium">إدارة المنصة</p>
+                <h1 className="text-sm font-extrabold text-white font-display">لوحة التحكم</h1>
+                <p className="text-[10px] text-gold-400/50 font-medium">إدارة المنصة</p>
               </div>
             </div>
-            <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden p-1 text-slate-400 hover:text-white rounded-lg">
+            <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden p-1 text-navy-400 hover:text-white rounded-lg">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -309,9 +309,10 @@ export default function AdminPanel() {
               key={item.id}
               onClick={() => navigateToSection(item.id)}
               className={`w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13px] font-bold transition-all duration-200 ${isActive(item.id)
-                ? 'bg-gradient-to-l from-indigo-600 to-indigo-700 text-white shadow-lg shadow-indigo-600/25'
+                ? 'text-navy-950 shadow-lg' 
                 : 'text-slate-400 hover:bg-white/8 hover:text-white'
                 }`}
+              style={isActive(item.id) ? { background: 'linear-gradient(135deg, #d4a853, #a37a2e)', boxShadow: '0 4px 15px rgba(212, 168, 83, 0.2)' } : undefined}
             >
               <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
               <span className="flex-1 text-right">{item.label}</span>
@@ -323,7 +324,7 @@ export default function AdminPanel() {
           ))}
         </nav>
 
-        <div className="p-2.5 border-t border-white/10">
+        <div className="p-2.5 border-t border-navy-500/12">
           <button onClick={signOut} className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-[13px] font-bold text-red-400 hover:bg-red-500/10 transition-all">
             <LogOut className="w-[18px] h-[18px]" />
             تسجيل الخروج
@@ -333,18 +334,18 @@ export default function AdminPanel() {
 
       {/* Main */}
       <div className="flex-1 min-w-0 flex flex-col">
-        <header className="glass border-b border-slate-200/60 px-4 lg:px-6 py-2.5 flex items-center justify-between sticky top-0 z-30">
-          <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden p-2 hover:bg-slate-100 rounded-xl text-slate-600">
+        <header className="glass border-b border-navy-500/12 px-4 lg:px-6 py-2.5 flex items-center justify-between sticky top-0 z-30">
+          <button onClick={() => setMobileMenuOpen(true)} className="lg:hidden p-2 hover:bg-navy-700/50 rounded-xl text-slate-400">
             <Menu className="w-5 h-5" />
           </button>
-          <h2 className="text-sm font-extrabold text-slate-800 hidden lg:block">
+          <h2 className="text-sm font-extrabold text-white hidden lg:block font-display">
             {navItems.find(n => isActive(n.id))?.label || 'لوحة التحكم'}
           </h2>
           <div className="flex items-center gap-1.5">
-            <button onClick={handleRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-600 transition-colors" title="تحديث">
+            <button onClick={handleRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400 transition-colors" title="تحديث">
               <RefreshCw className="w-[18px] h-[18px]" />
             </button>
-            <button onClick={() => navigateToSection('alerts')} className="relative p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-600 transition-colors">
+            <button onClick={() => navigateToSection('alerts')} className="relative p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400 transition-colors">
               <Bell className="w-[18px] h-[18px]" />
               {stats.unreadAlerts > 0 && (
                 <span className="absolute -top-0.5 -left-0.5 bg-red-500 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-extrabold animate-pulse">
@@ -405,21 +406,21 @@ function DashboardSection({ stats, onNavigate }: { stats: any; onNavigate: (s: A
   return (
     <div className="page-transition">
       <div className="mb-7">
-        <h2 className="text-2xl font-black text-slate-800">مرحباً بك 👋</h2>
-        <p className="text-slate-500 text-sm mt-1 font-medium">إليك نظرة سريعة على حالة المنصة</p>
+      <h2 className="text-2xl font-black text-white font-display">مرحباً بك 👋</h2>
+        <p className="text-slate-400 text-sm mt-1 font-medium">إليك نظرة سريعة على حالة المنصة</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((card, i) => (
           <button key={i} onClick={() => onNavigate(card.section)}
-            className={`animate-fade-in stagger-${Math.min(i + 1, 6)} relative bg-white rounded-2xl p-5 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-right overflow-hidden group ${card.urgent ? 'ring-2 ring-offset-2 ring-amber-300' : ''}`}>
+            className={`animate-fade-in stagger-${Math.min(i + 1, 6)} relative glass-card rounded-2xl p-5 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-right overflow-hidden group ${card.urgent ? 'ring-2 ring-offset-2 ring-offset-navy-900 ring-amber-400/50' : ''}`}>
             <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-l ${card.gradient}`} />
             <div className="flex items-center justify-between mb-3">
               <div className={`w-12 h-12 bg-gradient-to-br ${card.gradient} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                 <card.icon className="w-6 h-6 text-white" />
               </div>
-              <span className="text-3xl font-black text-slate-800">{card.value}</span>
+              <span className="text-3xl font-black text-white">{card.value}</span>
             </div>
-            <p className="text-xs font-bold text-slate-500">{card.label}</p>
+            <p className="text-xs font-bold text-slate-400">{card.label}</p>
             {card.urgent && (
               <span className="absolute top-3 left-3 flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
@@ -436,10 +437,10 @@ function DashboardSection({ stats, onNavigate }: { stats: any; onNavigate: (s: A
 // ===== STUDENTS =====
 // Hoisted outside component to avoid per-render allocation
 const statusCfg: Record<string, { label: string; color: string; bg: string; icon: any }> = {
-  pending: { label: 'انتظار', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200', icon: Clock },
-  approved: { label: 'مقبول', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200', icon: UserCheck },
-  rejected: { label: 'مرفوض', color: 'text-red-700', bg: 'bg-red-50 border-red-200', icon: UserX },
-  suspended: { label: 'معلّق', color: 'text-orange-700', bg: 'bg-orange-50 border-orange-200', icon: Ban }
+  pending: { label: 'انتظار', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20', icon: Clock },
+  approved: { label: 'مقبول', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20', icon: UserCheck },
+  rejected: { label: 'مرفوض', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20', icon: UserX },
+  suspended: { label: 'معلّق', color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20', icon: Ban }
 };
 
 function StudentsSection({ students, loading, actionLoading, onAction, onDelete, onDeviceAction, onDeleteDevice, onToggleDownload, onRefresh }: {
@@ -490,24 +491,25 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
     <div className="page-transition">
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h2 className="text-2xl font-black text-slate-800">إدارة الطلاب</h2>
-          <p className="text-slate-500 text-xs mt-1 font-medium">{students.length} طالب مسجل</p>
+          <h2 className="text-2xl font-black text-white font-display">إدارة الطلاب</h2>
+          <p className="text-slate-400 text-xs mt-1 font-medium">{students.length} طالب مسجل</p>
         </div>
-        <button onClick={onRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400 hover:text-slate-600 transition-colors"><RefreshCw className="w-[18px] h-[18px]" /></button>
+        <button onClick={onRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400 transition-colors"><RefreshCw className="w-[18px] h-[18px]" /></button>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-2xl p-3.5 mb-4 shadow-sm border border-slate-100">
+      <div className="glass-card rounded-2xl p-3.5 mb-4">
         <div className="flex flex-col sm:flex-row gap-2.5">
           <div className="relative flex-1">
-            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
             <input type="text" value={search} onChange={e => setSearch(e.target.value)} placeholder="بحث بالاسم أو الإيميل..."
-              className="w-full pr-10 pl-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 transition-all" />
+              className="w-full pr-10 pl-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 focus:border-gold-400/50 transition-all placeholder:text-navy-300" />
           </div>
           <div className="flex gap-1 flex-wrap">
             {(['all', 'pending', 'approved', 'rejected', 'suspended'] as const).map(s => (
               <button key={s} onClick={() => setFilter(s)}
-                className={`px-3 py-2 rounded-xl text-[11px] font-bold transition-all ${filter === s ? 'bg-slate-800 text-white shadow-sm' : 'bg-slate-100 text-slate-500 hover:bg-slate-200'}`}>
+                className={`px-3 py-2 rounded-xl text-[11px] font-bold transition-all ${filter === s ? 'text-navy-950 shadow-sm' : 'bg-navy-700/50 text-slate-400 hover:bg-navy-600/50'}`}
+                style={filter === s ? { background: 'linear-gradient(135deg, #d4a853, #a37a2e)' } : undefined}>
                 {s === 'all' ? `الكل (${counts.all})` : `${statusCfg[s].label} (${counts[s]})`}
               </button>
             ))}
@@ -518,8 +520,8 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
       {loading ? (
         <div className="flex justify-center py-16"><Spinner size="md" /></div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
-          <Users className="w-14 h-14 mx-auto mb-3 text-slate-200" />
+        <div className="text-center py-16 glass-card rounded-2xl">
+          <Users className="w-14 h-14 mx-auto mb-3 text-navy-500" />
           <p className="text-slate-400 font-bold text-sm">لا يوجد طلاب</p>
         </div>
       ) : (
@@ -531,7 +533,7 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
             const isLoadingDev = loadingDev === student.uid;
 
             return (
-              <div key={student.uid} className={`bg-white rounded-2xl border overflow-hidden transition-all duration-300 animate-fade-in ${isExpanded ? 'border-indigo-200 shadow-lg' : 'border-slate-100 hover:border-slate-200 shadow-sm'}`}>
+              <div key={student.uid} className={`glass-card rounded-2xl overflow-hidden transition-all duration-300 animate-fade-in ${isExpanded ? 'border-gold-400/25 shadow-lg' : ''}`}>
                 <button onClick={() => toggleExpand(student)} className="w-full p-4 text-right">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                     <div className="flex-1 min-w-0">
@@ -539,7 +541,7 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
                         <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${cfg.bg} border`}>
                           <cfg.icon className={`w-4 h-4 ${cfg.color}`} />
                         </div>
-                        <h3 className="font-extrabold text-slate-800 truncate text-sm">{student.name}</h3>
+                        <h3 className="font-extrabold text-white truncate text-sm font-display">{student.name}</h3>
                         <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold border ${cfg.bg} ${cfg.color}`}>{cfg.label}</span>
                       </div>
                       <div className="flex flex-wrap gap-x-4 gap-y-0.5 text-xs text-slate-400 mr-11">
@@ -577,7 +579,7 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
                           {actionLoading === student.uid + 'approved' ? <Spinner /> : <Check className="w-3.5 h-3.5" />} قبول
                         </button>
                       )}
-                      <div className={`p-1.5 rounded-lg transition-colors ${isExpanded ? 'bg-indigo-100 text-indigo-600' : 'bg-slate-100 text-slate-400'}`}>
+                      <div className={`p-1.5 rounded-lg transition-colors ${isExpanded ? 'bg-gold-400/15 text-gold-400' : 'bg-navy-700/50 text-slate-400'}`}>
                         {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                       </div>
                     </div>
@@ -585,25 +587,25 @@ function StudentsSection({ students, loading, actionLoading, onAction, onDelete,
                 </button>
 
                 {isExpanded && (
-                  <div className="border-t border-slate-100 animate-slide-down">
-                    <div className="px-4 py-2.5 flex flex-wrap gap-1.5 border-b border-slate-100 bg-slate-50/60">
+                  <div className="border-t border-navy-500/20 animate-slide-down">
+                    <div className="px-4 py-2.5 flex flex-wrap gap-1.5 border-b border-navy-500/15 bg-navy-750/30">
                       <button onClick={() => onDelete(student.uid)} disabled={actionLoading === student.uid + 'delete'}
-                        className="flex items-center gap-1 px-2.5 py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-[11px] font-bold transition-all border border-red-200">
+                        className="flex items-center gap-1 px-2.5 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-[11px] font-bold transition-all border border-red-500/20">
                         <Trash2 className="w-3 h-3" /> حذف نهائي
                       </button>
                       <button onClick={() => refreshDevices(student.uid)}
-                        className="flex items-center gap-1 px-2.5 py-1.5 bg-white hover:bg-slate-50 text-slate-600 rounded-lg text-[11px] font-medium transition-all border border-slate-200">
+                        className="flex items-center gap-1 px-2.5 py-1.5 bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 rounded-lg text-[11px] font-medium transition-all border border-navy-600/30">
                         <RefreshCw className={`w-3 h-3 ${isLoadingDev ? 'animate-spin' : ''}`} /> تحديث الأجهزة
                       </button>
                     </div>
                     <div className="p-4">
-                      <h4 className="text-xs font-extrabold text-slate-600 mb-2.5 flex items-center gap-1.5">
-                        <Monitor className="w-3.5 h-3.5 text-indigo-500" /> الأجهزة ({devices.length})
+                      <h4 className="text-xs font-extrabold text-slate-300 mb-2.5 flex items-center gap-1.5 font-display">
+                        <Monitor className="w-3.5 h-3.5 text-gold-400" /> الأجهزة ({devices.length})
                       </h4>
                       {isLoadingDev ? (
                         <div className="flex justify-center py-6"><Spinner size="md" /></div>
                       ) : devices.length === 0 ? (
-                        <div className="text-center py-5 text-slate-400 bg-slate-50 rounded-xl border border-slate-100">
+                        <div className="text-center py-5 text-slate-400 bg-navy-800/30 rounded-xl border border-navy-600/20">
                           <Smartphone className="w-7 h-7 mx-auto mb-1 opacity-50" /><p className="text-xs">لا توجد أجهزة</p>
                         </div>
                       ) : (
@@ -637,15 +639,15 @@ function DeviceCard({ device, userId, onDeviceAction, onDeleteDevice, onToggleDo
   const [showChoice, setShowChoice] = useState(false);
   const [busy, setBusy] = useState(false);
   const cfg: Record<string, { label: string; color: string; bg: string }> = {
-    pending: { label: 'انتظار', color: 'text-amber-700', bg: 'bg-amber-50 border-amber-200' },
-    approved: { label: 'معتمد', color: 'text-emerald-700', bg: 'bg-emerald-50 border-emerald-200' },
-    rejected: { label: 'مرفوض', color: 'text-red-700', bg: 'bg-red-50 border-red-200' },
+    pending: { label: 'انتظار', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20' },
+    approved: { label: 'معتمد', color: 'text-emerald-400', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+    rejected: { label: 'مرفوض', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/20' },
   };
   const c = cfg[device.status];
   async function act(s: string, dl?: boolean) { setBusy(true); await onDeviceAction(userId, device.deviceId, s, dl); setShowChoice(false); setBusy(false); }
 
   return (
-    <div className={`bg-white rounded-xl p-3.5 border ${device.status === 'pending' ? 'border-amber-200 bg-amber-50/20' : 'border-slate-100'} transition-all`}>
+    <div className={`bg-navy-800/40 rounded-xl p-3.5 border ${device.status === 'pending' ? 'border-amber-500/20 bg-amber-500/5' : 'border-navy-600/30'} transition-all`}>
       <div className="flex flex-col sm:flex-row sm:items-center gap-2.5">
         <div className="flex items-center gap-2.5 flex-1 min-w-0">
           <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 border ${c.bg}`}>
@@ -653,7 +655,7 @@ function DeviceCard({ device, userId, onDeviceAction, onDeleteDevice, onToggleDo
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className="font-bold text-slate-800 text-xs">{device.osName} — {device.browserName}</span>
+              <span className="font-bold text-white text-xs">{device.osName} — {device.browserName}</span>
               <span className={`px-1.5 py-0.5 rounded-full text-[9px] font-extrabold border ${c.bg} ${c.color}`}>{c.label}</span>
             </div>
             <div className="flex flex-wrap gap-x-3 mt-0.5 text-[10px] text-slate-400">
@@ -673,8 +675,8 @@ function DeviceCard({ device, userId, onDeviceAction, onDeleteDevice, onToggleDo
             <button onClick={() => act('rejected')} disabled={busy} className="flex items-center gap-1 px-2 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-lg text-[10px] font-bold disabled:opacity-50"><X className="w-3 h-3" />رفض</button>
           </>)}
           {showChoice && (
-            <div className="flex items-center gap-1.5 bg-indigo-50 border border-indigo-200 p-2 rounded-xl animate-fade-in-scale">
-              <span className="text-[10px] text-indigo-700 font-bold whitespace-nowrap">تحميل صوت؟</span>
+            <div className="flex items-center gap-1.5 bg-gold-400/10 border border-gold-400/15 p-2 rounded-xl animate-fade-in-scale">
+              <span className="text-[10px] text-gold-300 font-bold whitespace-nowrap">تحميل صوت؟</span>
               <button onClick={() => act('approved', true)} disabled={busy} className="px-2.5 py-1 bg-emerald-500 text-white text-[10px] font-bold rounded-lg disabled:opacity-50">نعم ✅</button>
               <button onClick={() => act('approved', false)} disabled={busy} className="px-2.5 py-1 bg-slate-500 text-white text-[10px] font-bold rounded-lg disabled:opacity-50">لا ❌</button>
               <button onClick={() => setShowChoice(false)} className="p-0.5 text-slate-400 hover:text-slate-600"><X className="w-3 h-3" /></button>
@@ -682,12 +684,12 @@ function DeviceCard({ device, userId, onDeviceAction, onDeleteDevice, onToggleDo
           )}
           {device.status === 'approved' && (
             <button onClick={() => onToggleDownload(userId, device.deviceId, device.canDownloadAudio)}
-              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${device.canDownloadAudio ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'}`}>
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-[10px] font-bold border transition-all ${device.canDownloadAudio ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20' : 'bg-navy-700/50 text-slate-400 border-navy-600/30 hover:bg-navy-600/50'}`}>
               {device.canDownloadAudio ? <ToggleRight className="w-3.5 h-3.5" /> : <ToggleLeft className="w-3.5 h-3.5" />}
               {device.canDownloadAudio ? 'إيقاف تحميل' : 'تفعيل تحميل'}
             </button>
           )}
-          <button onClick={() => onDeleteDevice(userId, device.deviceId)} className="p-1.5 bg-red-50 hover:bg-red-100 text-red-500 rounded-lg border border-red-100 transition-all" title="إزالة"><Trash2 className="w-3 h-3" /></button>
+          <button onClick={() => onDeleteDevice(userId, device.deviceId)} className="p-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg border border-red-500/15 transition-all" title="إزالة"><Trash2 className="w-3 h-3" /></button>
         </div>
       </div>
     </div>
@@ -703,31 +705,31 @@ function DevicesSection({ devices, loading, actionLoading, onAction, onRefresh }
   return (
     <div className="page-transition">
       <div className="flex items-center justify-between mb-5">
-        <div><h2 className="text-2xl font-black text-slate-800">طلبات الأجهزة</h2><p className="text-slate-500 text-xs mt-1 font-medium">{devices.length} طلب معلّق</p></div>
-        <button onClick={onRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
+        <div><h2 className="text-2xl font-black text-white font-display">طلبات الأجهزة</h2><p className="text-slate-400 text-xs mt-1 font-medium">{devices.length} طلب معلّق</p></div>
+        <button onClick={onRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
       </div>
       {loading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : devices.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100">
-          <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-3"><Check className="w-8 h-8 text-emerald-400" /></div>
-          <p className="text-slate-500 font-bold text-sm">لا توجد طلبات معلقة 🎉</p>
+        <div className="text-center py-16 glass-card rounded-2xl">
+          <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mx-auto mb-3 border border-emerald-500/20"><Check className="w-8 h-8 text-emerald-400" /></div>
+          <p className="text-slate-400 font-bold text-sm">لا توجد طلبات معلقة 🎉</p>
         </div>
       ) : (
         <div className="space-y-2.5">
           {devices.map(device => (
-            <div key={device.deviceId} className="bg-white rounded-2xl p-4 shadow-sm border border-amber-100 hover:shadow-md transition-all animate-fade-in">
+            <div key={device.deviceId} className="glass-card rounded-2xl p-4 hover:shadow-md transition-all animate-fade-in">
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <div className="flex items-center gap-3 flex-1">
-                  <div className="w-11 h-11 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-center flex-shrink-0"><Smartphone className="w-5 h-5 text-amber-600" /></div>
+                  <div className="w-11 h-11 bg-amber-500/10 border border-amber-500/20 rounded-xl flex items-center justify-center flex-shrink-0"><Smartphone className="w-5 h-5 text-amber-400" /></div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-extrabold text-slate-800 text-sm">{device.userName}</h3>
-                    <p className="text-xs text-slate-500">{device.userEmail}</p>
-                    <p className="text-[10px] text-slate-400 mt-0.5 flex items-center gap-1"><Monitor className="w-3 h-3" />{device.osName} — {device.browserName}</p>
+                    <h3 className="font-extrabold text-white text-sm font-display">{device.userName}</h3>
+                    <p className="text-xs text-slate-400">{device.userEmail}</p>
+                    <p className="text-[10px] text-navy-400 mt-0.5 flex items-center gap-1"><Monitor className="w-3 h-3" />{device.osName} — {device.browserName}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {choice === device.deviceId ? (
-                    <div className="flex items-center gap-2 bg-indigo-50 border border-indigo-200 p-2.5 rounded-xl animate-fade-in-scale">
-                      <span className="text-[11px] text-indigo-700 font-bold whitespace-nowrap">تحميل صوت؟</span>
+                    <div className="flex items-center gap-2 bg-gold-400/10 border border-gold-400/15 p-2.5 rounded-xl animate-fade-in-scale">
+                      <span className="text-[11px] text-gold-300 font-bold whitespace-nowrap">تحميل صوت؟</span>
                       <button onClick={() => { onAction(device.userId, device.deviceId, 'approved', true); setChoice(null); }} disabled={actionLoading === device.deviceId + 'approved'} className="px-3 py-1.5 bg-emerald-500 text-white text-[11px] font-bold rounded-lg disabled:opacity-50">نعم ✅</button>
                       <button onClick={() => { onAction(device.userId, device.deviceId, 'approved', false); setChoice(null); }} disabled={actionLoading === device.deviceId + 'approved'} className="px-3 py-1.5 bg-slate-500 text-white text-[11px] font-bold rounded-lg disabled:opacity-50">لا ❌</button>
                       <button onClick={() => setChoice(null)} className="p-1 text-slate-400"><X className="w-3.5 h-3.5" /></button>
@@ -781,45 +783,45 @@ function SubjectsSection({ subjects, loading, onRefresh, onViewLectures }: {
   return (
     <div className="page-transition">
       <div className="flex items-center justify-between mb-5">
-        <div><h2 className="text-2xl font-black text-slate-800">إدارة المواد</h2><p className="text-slate-500 text-xs mt-1 font-medium">{subjects.length} مادة</p></div>
+        <div><h2 className="text-2xl font-black text-white font-display">إدارة المواد</h2><p className="text-slate-400 text-xs mt-1 font-medium">{subjects.length} مادة</p></div>
         <div className="flex gap-1.5">
-          <button onClick={onRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
-          <button onClick={startAdd} className="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"><Plus className="w-4 h-4" />إضافة مادة</button>
+          <button onClick={onRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
+          <button onClick={startAdd} className="btn-gold text-navy-950 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all"><Plus className="w-4 h-4" />إضافة مادة</button>
         </div>
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-2xl p-5 shadow-lg border border-indigo-100 mb-5 animate-fade-in-scale">
-          <h3 className="font-extrabold text-slate-800 text-sm mb-4 flex items-center gap-2"><BookOpen className="w-4 h-4 text-indigo-600" />{editing ? 'تعديل المادة' : 'مادة جديدة'}</h3>
+        <div className="glass-card rounded-2xl p-5 shadow-lg mb-5 animate-fade-in-scale">
+          <h3 className="font-extrabold text-white text-sm mb-4 flex items-center gap-2 font-display"><BookOpen className="w-4 h-4 text-gold-400" />{editing ? 'تعديل المادة' : 'مادة جديدة'}</h3>
           <form onSubmit={handleSubmit} className="space-y-3.5">
-            <div><label className="block text-xs font-bold text-slate-600 mb-1">اسم المادة</label>
-              <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" placeholder="إدارة الأعمال" required /></div>
-            <div><label className="block text-xs font-bold text-slate-600 mb-1">اسم الدكتور</label>
-              <input type="text" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" placeholder="د. أحمد" required /></div>
-            <div><label className="block text-xs font-bold text-slate-600 mb-1">الترتيب</label>
-              <input type="number" value={order} onChange={e => setOrder(Number(e.target.value))} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" min={1} required /></div>
+            <div><label className="block text-xs font-bold text-gold-300/80 mb-1">اسم المادة</label>
+              <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all placeholder:text-navy-300" placeholder="إدارة الأعمال" required /></div>
+            <div><label className="block text-xs font-bold text-gold-300/80 mb-1">اسم الدكتور</label>
+              <input type="text" value={doctorName} onChange={e => setDoctorName(e.target.value)} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all placeholder:text-navy-300" placeholder="د. أحمد" required /></div>
+            <div><label className="block text-xs font-bold text-gold-300/80 mb-1">الترتيب</label>
+              <input type="number" value={order} onChange={e => setOrder(Number(e.target.value))} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all" min={1} required /></div>
             <div className="flex gap-2 pt-1">
-              <button type="submit" disabled={saving} className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 disabled:opacity-50 shadow-sm">{saving ? <Spinner /> : <Save className="w-3.5 h-3.5" />}حفظ</button>
-              <button type="button" onClick={() => setShowForm(false)} className="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2.5 rounded-xl text-xs font-bold">إلغاء</button>
+              <button type="submit" disabled={saving} className="btn-gold text-navy-950 px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 disabled:opacity-50 shadow-sm">{saving ? <Spinner /> : <Save className="w-3.5 h-3.5" />}حفظ</button>
+              <button type="button" onClick={() => setShowForm(false)} className="bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 px-4 py-2.5 rounded-xl text-xs font-bold border border-navy-600/30">إلغاء</button>
             </div>
           </form>
         </div>
       )}
 
       {loading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : subjects.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100"><BookOpen className="w-14 h-14 mx-auto mb-3 text-slate-200" /><p className="text-slate-400 font-bold text-sm">لا توجد مواد</p></div>
+        <div className="text-center py-16 glass-card rounded-2xl"><BookOpen className="w-14 h-14 mx-auto mb-3 text-navy-500" /><p className="text-slate-400 font-bold text-sm">لا توجد مواد</p></div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2">
           {subjects.map((s, i) => (
-            <div key={s.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-100 transition-all duration-300 group card-hover`}>
+            <div key={s.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} glass-card rounded-2xl p-4 hover:shadow-md transition-all duration-300 group card-hover`}>
               <div className="flex items-start gap-3">
-                <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-100 transition-colors"><BookOpen className="w-5 h-5 text-indigo-600" /></div>
-                <div className="flex-1 min-w-0"><h3 className="font-extrabold text-slate-800 text-sm">{s.name}</h3><p className="text-xs text-slate-500">{s.doctorName}</p></div>
+                <div className="w-11 h-11 bg-gold-400/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gold-400/20 transition-colors border border-gold-400/15"><BookOpen className="w-5 h-5 text-gold-400" /></div>
+                <div className="flex-1 min-w-0"><h3 className="font-extrabold text-white text-sm font-display">{s.name}</h3><p className="text-xs text-slate-400">{s.doctorName}</p></div>
               </div>
-              <div className="flex items-center gap-1.5 mt-3.5 pt-3 border-t border-slate-50">
-                <button onClick={() => onViewLectures(s)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-[11px] font-bold transition-all"><Headphones className="w-3.5 h-3.5" />المحاضرات</button>
-                <button onClick={() => startEdit(s)} className="p-2 bg-slate-50 hover:bg-slate-100 text-slate-400 rounded-xl transition-all"><Edit3 className="w-3.5 h-3.5" /></button>
-                <button onClick={() => handleDelete(s.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-400 rounded-xl transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
+              <div className="flex items-center gap-1.5 mt-3.5 pt-3 border-t border-navy-500/15">
+                <button onClick={() => onViewLectures(s)} className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-gold-400/10 hover:bg-gold-400/20 text-gold-400 rounded-xl text-[11px] font-bold transition-all border border-gold-400/15"><Headphones className="w-3.5 h-3.5" />المحاضرات</button>
+                <button onClick={() => startEdit(s)} className="p-2 bg-navy-700/50 hover:bg-navy-600/50 text-slate-400 rounded-xl transition-all"><Edit3 className="w-3.5 h-3.5" /></button>
+                <button onClick={() => handleDelete(s.id)} className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
               </div>
             </div>
           ))}
@@ -845,32 +847,32 @@ function LecturesSection({ subject, lectures, loading, onBack, onAddLecture, onE
   };
   return (
     <div className="page-transition">
-      <button onClick={onBack} className="flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 mb-4 font-bold text-xs transition-colors"><ChevronRight className="w-4 h-4" />العودة للمواد</button>
+      <button onClick={onBack} className="flex items-center gap-1.5 text-gold-400 hover:text-gold-300 mb-4 font-bold text-xs transition-colors"><ChevronRight className="w-4 h-4" />العودة للمواد</button>
       <div className="flex items-center justify-between mb-5">
-        <div><h2 className="text-2xl font-black text-slate-800">{subject.name}</h2><p className="text-slate-500 text-xs mt-0.5 font-medium">{subject.doctorName} · {lectures.length} محاضرة</p></div>
+        <div><h2 className="text-2xl font-black text-white font-display">{subject.name}</h2><p className="text-slate-400 text-xs mt-0.5 font-medium">{subject.doctorName} · {lectures.length} محاضرة</p></div>
         <div className="flex gap-1.5">
-          <button onClick={onRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
-          <button onClick={onAddLecture} className="bg-indigo-600 hover:bg-indigo-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"><Plus className="w-4 h-4" />إضافة محاضرة</button>
+          <button onClick={onRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
+          <button onClick={onAddLecture} className="btn-gold text-navy-950 px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm"><Plus className="w-4 h-4" />إضافة محاضرة</button>
         </div>
       </div>
       {loading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : lectures.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100"><Headphones className="w-14 h-14 mx-auto mb-3 text-slate-200" /><p className="text-slate-400 font-bold text-sm">لا توجد محاضرات</p></div>
+        <div className="text-center py-16 glass-card rounded-2xl"><Headphones className="w-14 h-14 mx-auto mb-3 text-navy-500" /><p className="text-slate-400 font-bold text-sm">لا توجد محاضرات</p></div>
       ) : (
         <div className="space-y-2.5">
           {lectures.map((l, i) => (
-            <div key={l.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} bg-white rounded-2xl p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-indigo-100 transition-all duration-300 group card-hover`}>
+            <div key={l.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} glass-card rounded-2xl p-4 hover:shadow-md transition-all duration-300 group card-hover`}>
               <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"><span className="text-sm font-black text-white">{l.order}</span></div>
+                <div className="w-11 h-11 bg-gradient-to-br from-gold-400 to-gold-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md"><span className="text-sm font-black text-navy-950">{l.order}</span></div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-slate-800 text-sm group-hover:text-indigo-600 transition-colors">{l.title}</h3>
+                  <h3 className="font-bold text-white text-sm group-hover:text-gold-400 transition-colors font-display">{l.title}</h3>
                   <div className="flex gap-2 mt-1">
-                    {l.audioUrl && <span className="text-[10px] text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg font-bold flex items-center gap-0.5"><Headphones className="w-2.5 h-2.5" />صوت</span>}
-                    {l.pdfUrl && <span className="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg font-bold flex items-center gap-0.5"><FileText className="w-2.5 h-2.5" />PDF</span>}
+                      {l.audioUrl && <span className="text-[10px] text-teal-400 bg-teal-400/10 px-2 py-0.5 rounded-lg font-bold flex items-center gap-0.5 border border-teal-400/15"><Headphones className="w-2.5 h-2.5" />صوت</span>}
+                    {l.pdfUrl && <span className="text-[10px] text-gold-400 bg-gold-400/10 px-2 py-0.5 rounded-lg font-bold flex items-center gap-0.5 border border-gold-400/15"><FileText className="w-2.5 h-2.5" />PDF</span>}
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
-                  <button onClick={() => onEditLecture(l)} className="p-2 bg-slate-50 hover:bg-indigo-50 text-slate-400 hover:text-indigo-600 rounded-xl transition-all"><Edit3 className="w-3.5 h-3.5" /></button>
-                  <button onClick={() => handleDelete(l.id)} className="p-2 bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-xl transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
+                  <button onClick={() => onEditLecture(l)} className="p-2 bg-navy-700/50 hover:bg-gold-400/15 text-slate-400 hover:text-gold-400 rounded-xl transition-all"><Edit3 className="w-3.5 h-3.5" /></button>
+                  <button onClick={() => handleDelete(l.id)} className="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl transition-all"><Trash2 className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
             </div>
@@ -898,22 +900,22 @@ function LectureFormSection({ subject, lecture, onBack }: { subject: SubjectData
 
   return (
     <div className="page-transition">
-      <button onClick={onBack} className="flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 mb-4 font-bold text-xs transition-colors"><ChevronRight className="w-4 h-4" />العودة</button>
-      <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 max-w-2xl animate-fade-in">
-        <h2 className="text-lg font-black text-slate-800 mb-5 flex items-center gap-2"><Headphones className="w-5 h-5 text-indigo-600" />{lecture ? 'تعديل المحاضرة' : 'محاضرة جديدة'}</h2>
+      <button onClick={onBack} className="flex items-center gap-1.5 text-gold-400 hover:text-gold-300 mb-4 font-bold text-xs transition-colors"><ChevronRight className="w-4 h-4" />العودة</button>
+      <div className="glass-card rounded-2xl p-5 md:p-6 max-w-2xl animate-fade-in">
+        <h2 className="text-lg font-black text-white mb-5 flex items-center gap-2 font-display"><Headphones className="w-5 h-5 text-gold-400" />{lecture ? 'تعديل المحاضرة' : 'محاضرة جديدة'}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div><label className="block text-xs font-bold text-slate-600 mb-1">عنوان المحاضرة</label>
-            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" placeholder="المحاضرة الأولى" required /></div>
-          <div><label className="block text-xs font-bold text-slate-600 mb-1">رابط الصوت (Google Drive)</label>
-            <input type="url" value={audioUrl} onChange={e => setAudioUrl(e.target.value)} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono focus:ring-2 focus:ring-indigo-500/40 transition-all" placeholder="https://drive.google.com/file/d/..." dir="ltr" />
-            <p className="text-[10px] text-slate-400 mt-1">ارفع على Drive واجعله "أي شخص لديه الرابط" ثم الصق الرابط</p></div>
-          <div><label className="block text-xs font-bold text-slate-600 mb-1">رابط PDF (Google Drive)</label>
-            <input type="url" value={pdfUrl} onChange={e => setPdfUrl(e.target.value)} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-mono focus:ring-2 focus:ring-indigo-500/40 transition-all" placeholder="https://drive.google.com/file/d/..." dir="ltr" /></div>
-          <div><label className="block text-xs font-bold text-slate-600 mb-1">الترتيب</label>
-            <input type="number" value={order} onChange={e => setOrder(Number(e.target.value))} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" min={1} required /></div>
+          <div><label className="block text-xs font-bold text-gold-300/80 mb-1">عنوان المحاضرة</label>
+            <input type="text" value={title} onChange={e => setTitle(e.target.value)} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all placeholder:text-navy-300" placeholder="المحاضرة الأولى" required /></div>
+          <div><label className="block text-xs font-bold text-gold-300/80 mb-1">رابط الصوت (Google Drive)</label>
+            <input type="url" value={audioUrl} onChange={e => setAudioUrl(e.target.value)} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm font-mono text-white focus:ring-2 focus:ring-gold-400/30 transition-all placeholder:text-navy-300" placeholder="https://drive.google.com/file/d/..." dir="ltr" />
+            <p className="text-[10px] text-navy-400 mt-1">ارفع على Drive واجعله "أي شخص لديه الرابط" ثم الصق الرابط</p></div>
+          <div><label className="block text-xs font-bold text-gold-300/80 mb-1">رابط PDF (Google Drive)</label>
+            <input type="url" value={pdfUrl} onChange={e => setPdfUrl(e.target.value)} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm font-mono text-white focus:ring-2 focus:ring-gold-400/30 transition-all placeholder:text-navy-300" placeholder="https://drive.google.com/file/d/..." dir="ltr" /></div>
+          <div><label className="block text-xs font-bold text-gold-300/80 mb-1">الترتيب</label>
+            <input type="number" value={order} onChange={e => setOrder(Number(e.target.value))} className="w-full px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all" min={1} required /></div>
           <div className="flex gap-2 pt-2">
-            <button type="submit" disabled={saving} className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 disabled:opacity-50 shadow-sm">{saving ? <Spinner /> : <Save className="w-3.5 h-3.5" />}{lecture ? 'تحديث' : 'إضافة'}</button>
-            <button type="button" onClick={onBack} className="bg-slate-100 hover:bg-slate-200 text-slate-600 px-5 py-2.5 rounded-xl text-xs font-bold">إلغاء</button>
+            <button type="submit" disabled={saving} className="btn-gold text-navy-950 px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 disabled:opacity-50 shadow-sm">{saving ? <Spinner /> : <Save className="w-3.5 h-3.5" />}{lecture ? 'تحديث' : 'إضافة'}</button>
+            <button type="button" onClick={onBack} className="bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 px-5 py-2.5 rounded-xl text-xs font-bold border border-navy-600/30">إلغاء</button>
           </div>
         </form>
       </div>
@@ -926,45 +928,45 @@ function AlertsSection({ alerts, loading, onMarkRead, onMarkAllRead, onRefresh }
   alerts: AlertData[]; loading: boolean; onMarkRead: (id: string) => void; onMarkAllRead: () => void; onRefresh: () => void;
 }) {
   const cfg: Record<string, { label: string; icon: any; color: string; bg: string; border: string }> = {
-    new_student: { label: 'طالب جديد', icon: UserCheck, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200' },
-    new_device: { label: 'جهاز جديد', icon: Smartphone, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-200' },
-    device_limit: { label: 'تجاوز حد الأجهزة', icon: AlertTriangle, color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-200' },
-    concurrent_use: { label: 'استخدام متزامن', icon: AlertTriangle, color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-200' },
+    new_student: { label: 'طالب جديد', icon: UserCheck, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+    new_device: { label: 'جهاز جديد', icon: Smartphone, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
+    device_limit: { label: 'تجاوز حد الأجهزة', icon: AlertTriangle, color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+    concurrent_use: { label: 'استخدام متزامن', icon: AlertTriangle, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
   };
   const unread = alerts.filter(a => a.status === 'unread').length;
 
   return (
     <div className="page-transition">
       <div className="flex items-center justify-between mb-5">
-        <div><h2 className="text-2xl font-black text-slate-800">التنبيهات</h2><p className="text-slate-500 text-xs mt-1 font-medium">{unread} غير مقروءة من {alerts.length}</p></div>
+        <div><h2 className="text-2xl font-black text-white font-display">التنبيهات</h2><p className="text-slate-400 text-xs mt-1 font-medium">{unread} غير مقروءة من {alerts.length}</p></div>
         <div className="flex gap-1.5">
-          {unread > 0 && <button onClick={onMarkAllRead} className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-[11px] font-bold">تم قراءة الكل</button>}
-          <button onClick={onRefresh} className="p-2 hover:bg-slate-100 rounded-xl text-slate-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
+          {unread > 0 && <button onClick={onMarkAllRead} className="px-3 py-2 bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 rounded-xl text-[11px] font-bold border border-navy-600/30">تم قراءة الكل</button>}
+          <button onClick={onRefresh} className="p-2 hover:bg-navy-700/50 rounded-xl text-slate-400 hover:text-gold-400"><RefreshCw className="w-[18px] h-[18px]" /></button>
         </div>
       </div>
       {loading ? <div className="flex justify-center py-16"><Spinner size="md" /></div> : alerts.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-2xl border border-slate-100"><Bell className="w-14 h-14 mx-auto mb-3 text-slate-200" /><p className="text-slate-400 font-bold text-sm">لا توجد تنبيهات</p></div>
+        <div className="text-center py-16 glass-card rounded-2xl"><Bell className="w-14 h-14 mx-auto mb-3 text-navy-500" /><p className="text-slate-400 font-bold text-sm">لا توجد تنبيهات</p></div>
       ) : (
         <div className="space-y-2">
           {alerts.map((alert, i) => {
             const c = cfg[alert.type] || cfg.new_student;
             const isUnread = alert.status === 'unread';
             return (
-              <div key={alert.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} rounded-2xl p-3.5 border transition-all ${isUnread ? `${c.bg} ${c.border} shadow-sm` : 'bg-white border-slate-100 opacity-60'}`}>
+              <div key={alert.id} className={`animate-fade-in stagger-${Math.min(i + 1, 6)} rounded-2xl p-3.5 border transition-all ${isUnread ? `${c.bg} ${c.border}` : 'bg-navy-800/30 border-navy-600/20 opacity-60'}`}>
                 <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${isUnread ? 'bg-white shadow-sm' : 'bg-slate-50'}`}>
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${isUnread ? c.bg + ' border ' + c.border : 'bg-navy-700/50'}`}>
                     <c.icon className={`w-4 h-4 ${isUnread ? c.color : 'text-slate-400'}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className={`text-xs font-extrabold ${isUnread ? 'text-slate-800' : 'text-slate-500'}`}>{c.label}</span>
+                      <span className={`text-xs font-extrabold ${isUnread ? 'text-white' : 'text-slate-500'}`}>{c.label}</span>
                       {isUnread && <span className="w-1.5 h-1.5 bg-red-500 rounded-full" />}
                     </div>
-                    <p className={`text-xs ${isUnread ? 'text-slate-700' : 'text-slate-400'}`}>{alert.userName}</p>
+                    <p className={`text-xs ${isUnread ? 'text-slate-300' : 'text-slate-500'}`}>{alert.userName}</p>
                     {alert.deviceInfo && <p className="text-[10px] text-slate-400 mt-0.5">{alert.deviceInfo}</p>}
                     <p className="text-[10px] text-slate-400 mt-0.5">{alert.createdAt?.toDate ? alert.createdAt.toDate().toLocaleString('ar-EG') : ''}</p>
                   </div>
-                  {isUnread && <button onClick={() => onMarkRead(alert.id)} className="px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-600 rounded-lg text-[10px] font-bold border border-slate-200 flex-shrink-0">تم ✓</button>}
+                  {isUnread && <button onClick={() => onMarkRead(alert.id)} className="px-2.5 py-1 bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 rounded-lg text-[10px] font-bold border border-navy-600/30 flex-shrink-0">تم ✓</button>}
                 </div>
               </div>
             );
@@ -983,19 +985,19 @@ function SettingsSection({ settings, onSave }: { settings: SettingsData; onSave:
 
   return (
     <div className="page-transition">
-      <div className="mb-5"><h2 className="text-2xl font-black text-slate-800">الإعدادات</h2><p className="text-slate-500 text-xs mt-1 font-medium">إعدادات عامة للمنصة</p></div>
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 max-w-xl animate-fade-in">
-        <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-slate-100">
-          <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center"><Settings className="w-5 h-5 text-indigo-600" /></div>
-          <div><h3 className="font-extrabold text-slate-800 text-sm">إعدادات الأمان</h3><p className="text-[10px] text-slate-400 font-medium">التحكم في حدود الأجهزة</p></div>
+      <div className="mb-5"><h2 className="text-2xl font-black text-white font-display">الإعدادات</h2><p className="text-slate-400 text-xs mt-1 font-medium">إعدادات عامة للمنصة</p></div>
+      <div className="glass-card rounded-2xl p-5 max-w-xl animate-fade-in">
+        <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-navy-500/15">
+          <div className="w-10 h-10 bg-gold-400/10 rounded-xl flex items-center justify-center border border-gold-400/15"><Settings className="w-5 h-5 text-gold-400" /></div>
+          <div><h3 className="font-extrabold text-white text-sm font-display">إعدادات الأمان</h3><p className="text-[10px] text-slate-400 font-medium">التحكم في حدود الأجهزة</p></div>
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-slate-600 mb-1.5">الحد الأقصى للأجهزة لكل طالب</label>
-            <input type="number" value={maxDev} onChange={e => setMaxDev(Number(e.target.value))} className="w-full max-w-xs px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-indigo-500/40 transition-all" min={1} max={10} />
-            <p className="text-[10px] text-slate-400 mt-1">عند تجاوز العدد يظهر تنبيه تلقائي</p>
+            <label className="block text-xs font-bold text-gold-300/80 mb-1.5">الحد الأقصى للأجهزة لكل طالب</label>
+            <input type="number" value={maxDev} onChange={e => setMaxDev(Number(e.target.value))} className="w-full max-w-xs px-4 py-2.5 bg-navy-750/60 border border-navy-500/30 rounded-xl text-sm text-white focus:ring-2 focus:ring-gold-400/30 transition-all" min={1} max={10} />
+            <p className="text-[10px] text-navy-400 mt-1">عند تجاوز العدد يظهر تنبيه تلقائي</p>
           </div>
-          <button onClick={save} className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all ${saved ? 'bg-emerald-500 text-white' : 'bg-indigo-600 hover:bg-indigo-700 text-white'}`}>
+          <button onClick={save} className={`px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all ${saved ? 'bg-emerald-500 text-white' : 'btn-gold text-navy-950'}`}>
             {saved ? <><Check className="w-3.5 h-3.5" />تم الحفظ</> : <><Save className="w-3.5 h-3.5" />حفظ</>}
           </button>
         </div>

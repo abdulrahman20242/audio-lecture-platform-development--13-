@@ -16,6 +16,29 @@ import CheckCircle from 'lucide-react/dist/esm/icons/check-circle';
 // Redirect URL — always use origin without path
 const REDIRECT_URL = window.location.origin;
 
+// Floating particles for ambient background
+function AmbientParticles() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div
+          key={i}
+          className="particle"
+          style={{
+            left: `${12 + i * 12}%`,
+            bottom: '-10px',
+            animationDuration: `${6 + i * 1.5}s`,
+            animationDelay: `${i * 0.8}s`,
+            width: `${2 + (i % 3)}px`,
+            height: `${2 + (i % 3)}px`,
+            opacity: 0.3 + (i % 3) * 0.15,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function LoginPage({ onNavigate }: { onNavigate: (page: string) => void }) {
   const { signIn } = useAuth();
   const [email, setEmail] = useState('');
@@ -75,62 +98,67 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
   }, [email, password]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-slate-900 to-purple-950 flex items-center justify-center p-4 relative overflow-hidden" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden grain-overlay" dir="rtl"
+      style={{ background: 'radial-gradient(ellipse at 30% 20%, #1b2641 0%, #0a0f1c 50%, #050810 100%)' }}>
+      
       {/* Ambient Background */}
+      <AmbientParticles />
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 -right-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/4 -right-32 w-[500px] h-[500px] bg-navy-500/15 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 -left-32 w-[500px] h-[500px] bg-navy-400/10 rounded-full blur-[150px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-navy-600/25 rounded-full blur-[180px]" />
       </div>
 
       <div className="w-full max-w-[420px] relative z-10 animate-fade-in">
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="relative inline-block">
-            <div className="w-18 h-18 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-2xl shadow-indigo-500/25 p-4">
-              <BookOpen className="w-9 h-9 text-white" />
+            <div className="w-18 h-18 rounded-2xl flex items-center justify-center mx-auto mb-5 p-4 relative"
+              style={{ background: 'linear-gradient(135deg, #d4a853, #a37a2e)', boxShadow: '0 0 40px rgba(212, 168, 83, 0.25)' }}>
+              <BookOpen className="w-9 h-9 text-navy-950" />
             </div>
-            <div className="absolute -top-1 -left-1 w-6 h-6 bg-amber-400 rounded-lg flex items-center justify-center shadow-lg">
-              <Sparkles className="w-3.5 h-3.5 text-amber-800" />
+            <div className="absolute -top-1 -left-1 w-6 h-6 rounded-lg flex items-center justify-center shadow-lg"
+              style={{ background: '#2dd4bf' }}>
+              <Sparkles className="w-3.5 h-3.5 text-teal-900" />
             </div>
           </div>
-          <h1 className="text-3xl font-black text-white tracking-tight">منصة المحاضرات</h1>
-          <p className="text-indigo-300/70 text-sm mt-2 font-medium">تسجيل الدخول إلى حسابك</p>
+          <h1 className="text-3xl font-black text-white tracking-tight font-display">منصة المحاضرات</h1>
+          <p className="text-gold-400/70 text-sm mt-2 font-medium">تسجيل الدخول إلى حسابك</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white/95 backdrop-blur-xl rounded-[28px] shadow-2xl shadow-black/20 p-7">
+        <div className="glass-card rounded-[28px] shadow-2xl shadow-black/30 p-7 animate-border-glow">
           {/* Error Message */}
           {error && !emailNotVerified && (
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-4 mb-5 flex items-center gap-3 animate-fade-in-scale">
-              <div className="w-9 h-9 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                <AlertCircle className="w-5 h-5 text-red-500" />
+            <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 mb-5 flex items-center gap-3 animate-fade-in-scale">
+              <div className="w-9 h-9 bg-red-500/15 rounded-xl flex items-center justify-center flex-shrink-0">
+                <AlertCircle className="w-5 h-5 text-red-400" />
               </div>
-              <p className="text-red-700 text-sm font-semibold">{error}</p>
+              <p className="text-red-300 text-sm font-semibold">{error}</p>
             </div>
           )}
 
           {/* Email Not Verified Warning */}
           {emailNotVerified && (
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-5 animate-fade-in-scale">
+            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5 mb-5 animate-fade-in-scale">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-5 h-5 text-amber-600" />
+                <div className="w-10 h-10 bg-amber-500/15 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Mail className="w-5 h-5 text-amber-400" />
                 </div>
                 <div>
-                  <h3 className="text-amber-800 text-sm font-extrabold">البريد غير مفعّل</h3>
-                  <p className="text-amber-600 text-xs mt-0.5">يجب تفعيل بريدك الإلكتروني أولاً</p>
+                  <h3 className="text-amber-300 text-sm font-extrabold">البريد غير مفعّل</h3>
+                  <p className="text-amber-400/70 text-xs mt-0.5">يجب تفعيل بريدك الإلكتروني أولاً</p>
                 </div>
               </div>
-              <p className="text-amber-700 text-xs leading-relaxed mb-4 bg-amber-100/50 rounded-xl p-3">
-                تم إرسال رابط التفعيل إلى <strong dir="ltr">{email}</strong>. 
+              <p className="text-amber-300/80 text-xs leading-relaxed mb-4 bg-amber-500/10 rounded-xl p-3">
+                تم إرسال رابط التفعيل إلى <strong dir="ltr">{email}</strong>.
                 افتح بريدك الوارد واضغط على رابط التفعيل، ثم عُد وسجّل دخولك.
                 <br />
-                <span className="text-amber-500 mt-1 block">💡 لم تجد الرسالة؟ تحقق من مجلد رسائل غير مرغوب فيها أو Spam</span>
+                <span className="text-amber-500/60 mt-1 block">💡 لم تجد الرسالة؟ تحقق من مجلد رسائل غير مرغوب فيها أو Spam</span>
               </p>
 
               {resendSuccess ? (
-                <div className="flex items-center gap-2 text-emerald-600 bg-emerald-50 rounded-xl p-3 text-xs font-bold">
+                <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 rounded-xl p-3 text-xs font-bold">
                   <CheckCircle className="w-4 h-4" />
                   تم إعادة إرسال رابط التفعيل بنجاح! تحقق من بريدك.
                 </div>
@@ -138,10 +166,10 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
                 <button
                   onClick={handleResendVerification}
                   disabled={resendLoading}
-                  className="w-full flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm disabled:opacity-50 border border-amber-500/20"
                 >
                   {resendLoading ? (
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-amber-300/30 border-t-amber-300 rounded-full animate-spin" />
                   ) : (
                     <Send className="w-4 h-4" />
                   )}
@@ -153,14 +181,14 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-bold text-slate-600 mb-2">البريد الإلكتروني</label>
+              <label className="block text-sm font-bold text-gold-300/80 mb-2">البريد الإلكتروني</label>
               <div className="relative group">
-                <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                <Mail className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-navy-400 group-focus-within:text-gold-400 transition-colors" />
                 <input
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full pr-12 pl-4 py-3.5 bg-slate-50/80 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 text-sm transition-all duration-200 placeholder:text-slate-400"
+                  className="w-full pr-12 pl-4 py-3.5 bg-navy-750/60 border border-navy-500/30 rounded-2xl focus:ring-2 focus:ring-gold-400/30 focus:border-gold-400/50 text-sm text-white transition-all duration-200 placeholder:text-navy-300"
                   placeholder="example@email.com"
                   dir="ltr"
                   required
@@ -169,14 +197,14 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-slate-600 mb-2">كلمة المرور</label>
+              <label className="block text-sm font-bold text-gold-300/80 mb-2">كلمة المرور</label>
               <div className="relative group">
-                <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
+                <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-navy-400 group-focus-within:text-gold-400 transition-colors" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full pr-12 pl-12 py-3.5 bg-slate-50/80 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500/40 focus:border-indigo-400 text-sm transition-all duration-200 placeholder:text-slate-400"
+                  className="w-full pr-12 pl-12 py-3.5 bg-navy-750/60 border border-navy-500/30 rounded-2xl focus:ring-2 focus:ring-gold-400/30 focus:border-gold-400/50 text-sm text-white transition-all duration-200 placeholder:text-navy-300"
                   placeholder="••••••••"
                   dir="ltr"
                   required
@@ -184,7 +212,7 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 transition-colors rounded-lg hover:bg-slate-100"
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 p-1 text-navy-400 hover:text-gold-400 transition-colors rounded-lg hover:bg-navy-700/50"
                 >
                   {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
                 </button>
@@ -195,7 +223,7 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
               <button
                 type="button"
                 onClick={() => onNavigate('forgot-password')}
-                className="text-[13px] text-indigo-600 hover:text-indigo-800 font-semibold transition-colors"
+                className="text-[13px] text-gold-400 hover:text-gold-300 font-semibold transition-colors"
               >
                 نسيت كلمة المرور؟
               </button>
@@ -204,10 +232,10 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-l from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3.5 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 shadow-lg shadow-indigo-600/25 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none mt-2"
+              className="w-full btn-gold py-3.5 px-6 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2.5 shadow-lg shadow-gold-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none mt-2 text-navy-950 font-bold"
             >
               {loading ? (
-                <div className="w-5 h-5 border-[2.5px] border-white/30 border-t-white rounded-full animate-spin" />
+                <div className="w-5 h-5 border-[2.5px] border-navy-900/30 border-t-navy-900 rounded-full animate-spin" />
               ) : (
                 <>
                   <LogIn className="w-[18px] h-[18px]" />
@@ -217,12 +245,12 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
             </button>
           </form>
 
-          <div className="mt-6 pt-5 border-t border-slate-100 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="mt-6 pt-5 border-t border-navy-500/20 text-center">
+            <p className="text-navy-400 text-sm">
               ليس لديك حساب؟{' '}
               <button
                 onClick={() => onNavigate('register')}
-                className="text-indigo-600 hover:text-indigo-800 font-extrabold transition-colors"
+                className="text-gold-400 hover:text-gold-300 font-extrabold transition-colors"
               >
                 سجّل الآن
               </button>
@@ -230,7 +258,7 @@ export default function LoginPage({ onNavigate }: { onNavigate: (page: string) =
           </div>
         </div>
 
-        <p className="text-center text-indigo-400/30 text-xs mt-6 font-medium">
+        <p className="text-center text-navy-400 text-xs mt-6 font-medium">
           منصة المحاضرات الصوتية — جميع الحقوق محفوظة
         </p>
       </div>

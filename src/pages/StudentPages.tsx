@@ -26,29 +26,30 @@ import Loader2 from 'lucide-react/dist/esm/icons/loader-2';
 const StudentHeader = memo(function StudentHeader({ title, onBack }: { title: string; onBack?: () => void }) {
   const { signOut, userData } = useAuth();
   return (
-    <header className="glass border-b border-slate-200/60 sticky top-0 z-50">
+    <header className="glass border-b border-navy-500/12 sticky top-0 z-50">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           {onBack && (
-            <button onClick={onBack} className="p-2 hover:bg-slate-100 rounded-xl transition-colors duration-200">
-              <ArrowRight className="w-5 h-5 text-slate-600" />
+            <button onClick={onBack} className="p-2 hover:bg-navy-700/50 rounded-xl transition-colors duration-200">
+              <ArrowRight className="w-5 h-5 text-gold-400" />
             </button>
           )}
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <BookOpen className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+              style={{ background: 'linear-gradient(135deg, #d4a853, #a37a2e)' }}>
+              <BookOpen className="w-4 h-4 text-navy-950" />
             </div>
-            <h1 className="text-base font-extrabold text-slate-800">{title}</h1>
+            <h1 className="text-base font-extrabold text-white font-display">{title}</h1>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500 hidden sm:flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl">
+          <span className="text-xs text-slate-400 hidden sm:flex items-center gap-1.5 bg-navy-700/50 px-3 py-1.5 rounded-xl border border-navy-600/30">
             <User className="w-3.5 h-3.5" />
             {userData?.name}
           </span>
           <button
             onClick={signOut}
-            className="p-2 hover:bg-red-50 text-slate-400 hover:text-red-500 rounded-xl transition-all duration-200"
+            className="p-2 hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded-xl transition-all duration-200"
             title="تسجيل الخروج"
           >
             <LogOut className="w-4.5 h-4.5" />
@@ -64,18 +65,18 @@ const DriveAudioPlayer = memo(function DriveAudioPlayer({ audioUrl }: { audioUrl
   const fileId = extractDriveFileId(audioUrl);
   if (!fileId) {
     return (
-      <div className="bg-red-50 text-red-600 p-4 rounded-2xl text-sm text-center font-medium border border-red-100">
+      <div className="bg-red-500/10 text-red-400 p-4 rounded-2xl text-sm text-center font-medium border border-red-500/20">
         رابط الصوت غير صالح
       </div>
     );
   }
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2 text-sm text-slate-500">
-        <Volume2 className="w-4 h-4 text-indigo-500" />
+      <div className="flex items-center gap-2 text-sm text-slate-400">
+        <Volume2 className="w-4 h-4 text-teal-400" />
         <span>اضغط ▶ للاستماع</span>
       </div>
-      <div className="rounded-2xl overflow-hidden border border-slate-200 bg-gradient-to-b from-slate-50 to-white shadow-inner">
+      <div className="rounded-2xl overflow-hidden border border-navy-600/50 bg-navy-800/50 shadow-inner">
         <iframe
           src={getDriveEmbedUrl(audioUrl)}
           className="w-full"
@@ -93,7 +94,7 @@ const DriveAudioPlayer = memo(function DriveAudioPlayer({ audioUrl }: { audioUrl
 // ===== LOADING SKELETON =====
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-slate-100">
+    <div className="glass-card rounded-2xl p-6">
       <div className="flex items-center gap-4">
         <div className="skeleton w-12 h-12 rounded-xl flex-shrink-0" />
         <div className="flex-1 space-y-2">
@@ -105,14 +106,14 @@ function SkeletonCard() {
   );
 }
 
-// ===== SUBJECT COLORS (hoisted to avoid per-render allocation) =====
+// ===== SUBJECT COLORS (warm gradients for dark theme) =====
 const SUBJECT_COLORS = [
-  'from-indigo-500 to-blue-600',
-  'from-emerald-500 to-teal-600',
-  'from-violet-500 to-purple-600',
-  'from-amber-500 to-orange-600',
-  'from-rose-500 to-pink-600',
-  'from-cyan-500 to-sky-600',
+  'from-gold-400 to-gold-600',
+  'from-teal-400 to-teal-600',
+  'from-violet-400 to-purple-600',
+  'from-amber-400 to-orange-600',
+  'from-rose-400 to-pink-600',
+  'from-cyan-400 to-sky-600',
 ];
 
 // ===== SUBJECTS PAGE =====
@@ -144,20 +145,22 @@ export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: S
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white page-transition">
+    <div className="min-h-screen page-transition grain-overlay"
+      style={{ background: 'linear-gradient(180deg, #0a0f1c 0%, #0e1425 50%, #0a0f1c 100%)' }}>
       <StudentHeader title="المواد الدراسية" />
       <main className="max-w-4xl mx-auto px-4 py-6">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-l from-indigo-600 via-indigo-700 to-purple-700 rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_rgba(255,255,255,0.15),transparent_50%)]" />
+        <div className="rounded-3xl p-6 md:p-8 mb-8 text-white relative overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #1a1508 0%, #1b2641 50%, #131a2e 100%)', border: '1px solid rgba(63, 85, 128, 0.2)' }}>
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_rgba(63,85,128,0.12),transparent_50%)]" />
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-12 h-12 bg-white/15 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                <GraduationCap className="w-6 h-6" />
+              <div className="w-12 h-12 bg-gold-400/15 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-gold-400/20">
+                <GraduationCap className="w-6 h-6 text-gold-400" />
               </div>
               <div>
-                <h2 className="text-xl md:text-2xl font-black">مرحباً {userData?.name} 👋</h2>
-                <p className="text-indigo-200 text-sm font-medium">اختر المادة للوصول إلى المحاضرات</p>
+                <h2 className="text-xl md:text-2xl font-black font-display">مرحباً {userData?.name} 👋</h2>
+                <p className="text-gold-400/60 text-sm font-medium">اختر المادة للوصول إلى المحاضرات</p>
               </div>
             </div>
           </div>
@@ -169,11 +172,11 @@ export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: S
           </div>
         ) : subjects.length === 0 ? (
           <div className="text-center py-24 animate-fade-in">
-            <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-5">
-              <BookOpen className="w-10 h-10 text-slate-300" />
+            <div className="w-20 h-20 bg-navy-700/50 rounded-3xl flex items-center justify-center mx-auto mb-5 border border-navy-500/25">
+              <BookOpen className="w-10 h-10 text-navy-500" />
             </div>
-            <h3 className="text-lg font-bold text-slate-500">لا توجد مواد حالياً</h3>
-            <p className="text-slate-400 text-sm mt-1">سيتم إضافة المواد قريباً</p>
+            <h3 className="text-lg font-bold text-slate-400 font-display">لا توجد مواد حالياً</h3>
+            <p className="text-navy-400 text-sm mt-1">سيتم إضافة المواد قريباً</p>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
@@ -181,19 +184,19 @@ export function SubjectsPage({ onSelectSubject }: { onSelectSubject: (subject: S
               <button
                 key={subject.id}
                 onClick={() => onSelectSubject(subject)}
-                className={`animate-fade-in stagger-${Math.min(i + 1, 6)} bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg border border-slate-100 hover:border-indigo-200 transition-all duration-300 text-right group card-hover`}
+                className={`animate-fade-in stagger-${Math.min(i + 1, 6)} glass-card rounded-2xl p-5 hover:shadow-lg transition-all duration-300 text-right group card-hover`}
               >
                 <div className="flex items-center gap-4">
                   <div className={`w-13 h-13 bg-gradient-to-br ${SUBJECT_COLORS[i % SUBJECT_COLORS.length]} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300 p-3`}>
-                    <BookOpen className="w-6 h-6 text-white" />
+                    <BookOpen className="w-6 h-6 text-navy-950" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-base font-extrabold text-slate-800 group-hover:text-indigo-600 transition-colors truncate">
+                    <h3 className="text-base font-extrabold text-white group-hover:text-gold-400 transition-colors truncate font-display">
                       {subject.name}
                     </h3>
-                    <p className="text-sm text-slate-500 mt-0.5">{subject.doctorName}</p>
+                    <p className="text-sm text-slate-400 mt-0.5">{subject.doctorName}</p>
                   </div>
-                  <ChevronLeft className="w-5 h-5 text-slate-300 group-hover:text-indigo-500 group-hover:-translate-x-1 transition-all duration-300 flex-shrink-0" />
+                  <ChevronLeft className="w-5 h-5 text-navy-500 group-hover:text-gold-400 group-hover:-translate-x-1 transition-all duration-300 flex-shrink-0" />
                 </div>
               </button>
             ))}
@@ -230,17 +233,18 @@ export function LecturesPage({
   }, [subject.id]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white page-transition">
+    <div className="min-h-screen page-transition grain-overlay"
+      style={{ background: 'linear-gradient(180deg, #0a0f1c 0%, #0e1425 50%, #0a0f1c 100%)' }}>
       <StudentHeader title={subject.name} onBack={onBack} />
       <main className="max-w-4xl mx-auto px-4 py-6">
         {/* Subject Info */}
-        <div className="bg-white rounded-2xl p-4 mb-6 border border-slate-100 shadow-sm flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center flex-shrink-0">
-            <BookOpen className="w-5 h-5 text-indigo-600" />
+        <div className="glass-card rounded-2xl p-4 mb-6 flex items-center gap-3">
+          <div className="w-10 h-10 bg-gold-400/15 rounded-xl flex items-center justify-center flex-shrink-0 border border-gold-400/15">
+            <BookOpen className="w-5 h-5 text-gold-400" />
           </div>
           <div>
-            <h3 className="font-bold text-slate-800 text-sm">{subject.name}</h3>
-            <p className="text-xs text-slate-500">{subject.doctorName}</p>
+            <h3 className="font-bold text-white text-sm font-display">{subject.name}</h3>
+            <p className="text-xs text-slate-400">{subject.doctorName}</p>
           </div>
         </div>
 
@@ -250,11 +254,11 @@ export function LecturesPage({
           </div>
         ) : lectures.length === 0 ? (
           <div className="text-center py-24 animate-fade-in">
-            <div className="w-20 h-20 bg-slate-100 rounded-3xl flex items-center justify-center mx-auto mb-5">
-              <Headphones className="w-10 h-10 text-slate-300" />
+            <div className="w-20 h-20 bg-navy-700/50 rounded-3xl flex items-center justify-center mx-auto mb-5 border border-navy-500/25">
+              <Headphones className="w-10 h-10 text-navy-500" />
             </div>
-            <h3 className="text-lg font-bold text-slate-500">لا توجد محاضرات حالياً</h3>
-            <p className="text-slate-400 text-sm mt-1">سيتم إضافة المحاضرات قريباً</p>
+            <h3 className="text-lg font-bold text-slate-400 font-display">لا توجد محاضرات حالياً</h3>
+            <p className="text-navy-400 text-sm mt-1">سيتم إضافة المحاضرات قريباً</p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -262,30 +266,31 @@ export function LecturesPage({
               <button
                 key={lecture.id}
                 onClick={() => onSelectLecture(lecture)}
-                className={`animate-fade-in stagger-${Math.min(i + 1, 6)} w-full bg-white rounded-2xl p-4 md:p-5 shadow-sm hover:shadow-lg border border-slate-100 hover:border-indigo-200 transition-all duration-300 text-right group card-hover`}
+                className={`animate-fade-in stagger-${Math.min(i + 1, 6)} w-full glass-card rounded-2xl p-4 md:p-5 hover:shadow-lg transition-all duration-300 text-right group card-hover`}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                    <Play className="w-5 h-5 text-white" />
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300"
+                    style={{ background: 'linear-gradient(135deg, #d4a853, #a37a2e)' }}>
+                    <Play className="w-5 h-5 text-navy-950" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
+                    <h3 className="font-bold text-white group-hover:text-gold-400 transition-colors font-display">
                       {lecture.title}
                     </h3>
                     <div className="flex items-center gap-3 mt-1.5">
                       {lecture.audioUrl && (
-                        <span className="text-xs text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1">
+                        <span className="text-xs text-teal-400 bg-teal-400/10 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 border border-teal-400/15">
                           <Headphones className="w-3 h-3" /> صوت
                         </span>
                       )}
                       {lecture.pdfUrl && (
-                        <span className="text-xs text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1">
+                        <span className="text-xs text-gold-400 bg-gold-400/10 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 border border-gold-400/15">
                           <FileText className="w-3 h-3" /> PDF
                         </span>
                       )}
                     </div>
                   </div>
-                  <ChevronLeft className="w-5 h-5 text-slate-300 group-hover:text-indigo-500 group-hover:-translate-x-1 transition-all duration-300 flex-shrink-0" />
+                  <ChevronLeft className="w-5 h-5 text-navy-500 group-hover:text-gold-400 group-hover:-translate-x-1 transition-all duration-300 flex-shrink-0" />
                 </div>
               </button>
             ))}
@@ -336,42 +341,44 @@ export function LecturePage({
   }, [lecture.pdfUrl, user?.emailVerified]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white page-transition">
+    <div className="min-h-screen page-transition grain-overlay"
+      style={{ background: 'linear-gradient(180deg, #0a0f1c 0%, #0e1425 50%, #0a0f1c 100%)' }}>
       <StudentHeader title={lecture.title} onBack={onBack} />
       <main className="max-w-4xl mx-auto px-4 py-6">
         {/* Lecture Header */}
-        <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 mb-5 animate-fade-in">
+        <div className="glass-card rounded-2xl p-5 md:p-6 mb-5 animate-fade-in">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
-              <Headphones className="w-7 h-7 text-white" />
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #d4a853, #a37a2e)', boxShadow: '0 0 25px rgba(212, 168, 83, 0.15)' }}>
+              <Headphones className="w-7 h-7 text-navy-950" />
             </div>
             <div>
-              <h2 className="text-xl font-black text-slate-800">{lecture.title}</h2>
-              <p className="text-sm text-slate-500 mt-0.5">{subject.name} — {subject.doctorName}</p>
+              <h2 className="text-xl font-black text-white font-display">{lecture.title}</h2>
+              <p className="text-sm text-slate-400 mt-0.5">{subject.name} — {subject.doctorName}</p>
             </div>
           </div>
         </div>
 
         {/* Audio Section */}
         {lecture.audioUrl && (
-          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 mb-5 animate-fade-in stagger-1">
+          <div className="glass-card rounded-2xl p-5 md:p-6 mb-5 animate-fade-in stagger-1">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 bg-indigo-100 rounded-xl flex items-center justify-center">
-                  <Headphones className="w-[18px] h-[18px] text-indigo-600" />
+                <div className="w-9 h-9 bg-teal-400/15 rounded-xl flex items-center justify-center border border-teal-400/15">
+                  <Headphones className="w-[18px] h-[18px] text-teal-400" />
                 </div>
-                <h3 className="font-extrabold text-slate-800">المحاضرة الصوتية</h3>
+                <h3 className="font-extrabold text-white font-display">المحاضرة الصوتية</h3>
               </div>
             </div>
             
             <DriveAudioPlayer audioUrl={lecture.audioUrl} />
 
-            <div className="mt-5 pt-4 border-t border-slate-100">
+            <div className="mt-5 pt-4 border-t border-navy-500/20">
               {canDownloadAudio ? (
                 <button
                   onClick={handleAudioDownload}
                   disabled={downloadingAudio}
-                  className="inline-flex items-center gap-2.5 bg-gradient-to-l from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 text-sm disabled:opacity-50 shadow-lg shadow-indigo-600/20 hover:shadow-xl"
+                  className="inline-flex items-center gap-2.5 btn-gold text-navy-950 font-bold py-3 px-6 rounded-xl transition-all duration-200 text-sm disabled:opacity-50 shadow-lg shadow-gold-500/15 hover:shadow-xl"
                 >
                   {downloadingAudio ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -381,7 +388,7 @@ export function LecturePage({
                   {downloadingAudio ? 'جاري التحميل...' : 'تحميل الملف الصوتي'}
                 </button>
               ) : (
-                <div className="flex items-center gap-2.5 text-sm text-amber-700 bg-amber-50 px-4 py-3 rounded-xl border border-amber-200/60">
+                <div className="flex items-center gap-2.5 text-sm text-amber-300 bg-amber-500/10 px-4 py-3 rounded-xl border border-amber-500/15">
                   <Lock className="w-4 h-4 flex-shrink-0" />
                   <span className="font-semibold">تحميل الصوت غير مسموح على هذا الجهاز — للاستماع فقط</span>
                 </div>
@@ -392,18 +399,18 @@ export function LecturePage({
 
         {/* PDF Section */}
         {lecture.pdfUrl && (
-          <div className="bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-slate-100 mb-5 animate-fade-in stagger-2">
+          <div className="glass-card rounded-2xl p-5 md:p-6 mb-5 animate-fade-in stagger-2">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 bg-emerald-100 rounded-xl flex items-center justify-center">
-                  <FileText className="w-[18px] h-[18px] text-emerald-600" />
+                <div className="w-9 h-9 bg-gold-400/15 rounded-xl flex items-center justify-center border border-gold-400/15">
+                  <FileText className="w-[18px] h-[18px] text-gold-400" />
                 </div>
-                <h3 className="font-extrabold text-slate-800">ملف PDF</h3>
+                <h3 className="font-extrabold text-white font-display">ملف PDF</h3>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowPdf(!showPdf)}
-                  className="inline-flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm"
+                  className="inline-flex items-center gap-1.5 bg-navy-700/50 hover:bg-navy-600/50 text-slate-300 font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm border border-navy-600/30"
                 >
                   {showPdf ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   {showPdf ? 'إخفاء' : 'معاينة'}
@@ -411,7 +418,7 @@ export function LecturePage({
                 <button
                   onClick={handlePdfDownload}
                   disabled={downloadingPdf}
-                  className="inline-flex items-center gap-2 bg-gradient-to-l from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm disabled:opacity-50 shadow-lg shadow-emerald-600/20"
+                  className="inline-flex items-center gap-2 bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 font-bold py-2.5 px-4 rounded-xl transition-all duration-200 text-sm disabled:opacity-50 border border-teal-500/20"
                 >
                   {downloadingPdf ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -424,7 +431,7 @@ export function LecturePage({
             </div>
 
             {showPdf ? (
-              <div className="rounded-2xl overflow-hidden border border-slate-200 animate-fade-in" style={{ height: '600px' }}>
+              <div className="rounded-2xl overflow-hidden border border-navy-600/50 animate-fade-in" style={{ height: '600px' }}>
                 <iframe
                   src={getDrivePdfPreviewUrl(lecture.pdfUrl)}
                   className="w-full h-full"
@@ -434,19 +441,19 @@ export function LecturePage({
                 />
               </div>
             ) : (
-              <div className="bg-gradient-to-b from-slate-50 to-slate-100/50 rounded-2xl p-10 text-center border border-slate-200/50">
-                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-                  <FileText className="w-8 h-8 text-slate-300" />
+              <div className="bg-navy-800/50 rounded-2xl p-10 text-center border border-navy-600/30">
+                <div className="w-16 h-16 bg-navy-700/50 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-navy-600/30">
+                  <FileText className="w-8 h-8 text-navy-500" />
                 </div>
-                <p className="text-slate-500 text-sm font-medium">اضغط "معاينة" لعرض الملف أو "تحميل" لتنزيله</p>
+                <p className="text-slate-400 text-sm font-medium">اضغط "معاينة" لعرض الملف أو "تحميل" لتنزيله</p>
               </div>
             )}
           </div>
         )}
 
         {/* Security Notice */}
-        <div className="mt-4 bg-slate-50 rounded-2xl p-4 border border-slate-100 animate-fade-in stagger-3">
-          <div className="flex items-center justify-center gap-2 text-xs text-slate-400">
+        <div className="mt-4 bg-navy-750/30 rounded-2xl p-4 border border-navy-500/15 animate-fade-in stagger-3">
+          <div className="flex items-center justify-center gap-2 text-xs text-navy-400">
             <Shield className="w-3.5 h-3.5" />
             <span>المحتوى محمي — يُرجى عدم مشاركة الحساب</span>
           </div>
